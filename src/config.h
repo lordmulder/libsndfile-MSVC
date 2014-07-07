@@ -280,7 +280,7 @@ SF_llrintf (float flt)
 #define PACKAGE_URL "http://www.mega-nerd.com/libsndfile/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.24"
+#define PACKAGE_VERSION "1.0.25"
 
 /* Set to maximum allowed value of sf_count_t type. */
 #define SF_COUNT_MAX 0x7fffffffffffffffi64
@@ -340,7 +340,7 @@ SF_llrintf (float flt)
 #define USE_WINDOWS_API 1
 
 /* Version number of package */
-#define VERSION "1.0.24"
+#define VERSION "1.0.25"
 
 /* Set to 1 if windows DLL is being built. */
 #define WIN32_TARGET_DLL 0
