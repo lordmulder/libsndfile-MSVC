@@ -9,6 +9,6 @@ The provided project/solution files should compile right away under Visual Studi
 
 ## Legal Notice ##
 
-Libsndfile was created by *Erik de Castro Lopo* and is is released under the terms of the *GNU Lesser General Public License*. For details, please refer to the official *libsndfile* web-site!
+Libsndfile was created by *Erik de Castro Lopo* and is released under the terms of the *GNU Lesser General Public License*. For details, please refer to the official *libsndfile* web-site!
 
-**Statically** linking *libsndfile* into your program requires that your program is released under GNU GPL !!!
+**Statically** linking *libsndfile* into your program requires that your program is released under the GNU GPL !!!
