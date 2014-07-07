@@ -558,7 +558,7 @@ gsm610_write_f	(SF_PRIVATE *psf, const float *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = lrintf (normfact * ptr [total + k]) ;
+			sptr [k] = SF_lrintf (normfact * ptr [total + k]) ;
 		count = gsm610_write_block (psf, pgsm610, sptr, writecount) ;
 
 		total += count ;
@@ -586,7 +586,7 @@ gsm610_write_d	(SF_PRIVATE *psf, const double *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = lrint (normfact * ptr [total + k]) ;
+			sptr [k] = SF_lrint (normfact * ptr [total + k]) ;
 		count = gsm610_write_block (psf, pgsm610, sptr, writecount) ;
 
 		total += count ;

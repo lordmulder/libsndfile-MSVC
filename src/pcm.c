@@ -1766,7 +1766,7 @@ f2sc_array (const float *src, signed char *dest, int count, int normalize)
 	normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-	{	dest [count] = lrintf (src [count] * normfact) ;
+	{	dest [count] = SF_lrintf (src [count] * normfact) ;
 		} ;
 } /* f2sc_array */
 
@@ -1787,7 +1787,7 @@ f2sc_clip_array (const float *src, signed char *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		dest [count] = lrintf (scaled_value) >> 24 ;
+		dest [count] = SF_lrintf (scaled_value) >> 24 ;
 		} ;
 } /* f2sc_clip_array */
 
@@ -1824,7 +1824,7 @@ f2uc_array	(const float *src, unsigned char *dest, int count, int normalize)
 	normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-	{	dest [count] = lrintf (src [count] * normfact) + 128 ;
+	{	dest [count] = SF_lrintf (src [count] * normfact) + 128 ;
 		} ;
 } /* f2uc_array */
 
@@ -1845,7 +1845,7 @@ f2uc_clip_array	(const float *src, unsigned char *dest, int count, int normalize
 			continue ;
 			} ;
 
-		dest [count] = (lrintf (scaled_value) >> 24) + 128 ;
+		dest [count] = (SF_lrintf (scaled_value) >> 24) + 128 ;
 		} ;
 } /* f2uc_clip_array */
 
@@ -1886,7 +1886,7 @@ f2bes_array (const float *src, short *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 2 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [1] = value ;
 		ucptr [0] = value >> 8 ;
 			} ;
@@ -1915,7 +1915,7 @@ f2bes_clip_array (const float *src, short *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrintf (scaled_value) ;
+		value = SF_lrintf (scaled_value) ;
 		ucptr [1] = value >> 16 ;
 		ucptr [0] = value >> 24 ;
 		} ;
@@ -1958,7 +1958,7 @@ f2les_array (const float *src, short *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 2 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		} ;
@@ -1987,7 +1987,7 @@ f2les_clip_array (const float *src, short *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrintf (scaled_value) ;
+		value = SF_lrintf (scaled_value) ;
 		ucptr [0] = value >> 16 ;
 		ucptr [1] = value >> 24 ;
 		} ;
@@ -2030,7 +2030,7 @@ f2let_array (const float *src, tribyte *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 3 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;
@@ -2062,7 +2062,7 @@ f2let_clip_array (const float *src, tribyte *dest, int count, int normalize)
 			continue ;
 		} ;
 
-		value = lrintf (scaled_value) ;
+		value = SF_lrintf (scaled_value) ;
 		ucptr [0] = value >> 8 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 24 ;
@@ -2106,7 +2106,7 @@ f2bet_array (const float *src, tribyte *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 3 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [0] = value >> 16 ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value ;
@@ -2138,7 +2138,7 @@ f2bet_clip_array (const float *src, tribyte *dest, int count, int normalize)
 			continue ;
 		} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [0] = value >> 24 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 8 ;
@@ -2181,7 +2181,7 @@ f2bei_array (const float *src, int *dest, int count, int normalize)
 	ucptr = ((unsigned char*) dest) + 4 * count ;
 	while (--count >= 0)
 	{	ucptr -= 4 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [0] = value >> 24 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 8 ;
@@ -2216,7 +2216,7 @@ f2bei_clip_array (const float *src, int *dest, int count, int normalize)
 			continue ;
 		} ;
 
-		value = lrintf (scaled_value) ;
+		value = SF_lrintf (scaled_value) ;
 		ucptr [0] = value >> 24 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 8 ;
@@ -2261,7 +2261,7 @@ f2lei_array (const float *src, int *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 4 ;
-		value = lrintf (src [count] * normfact) ;
+		value = SF_lrintf (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;
@@ -2296,7 +2296,7 @@ f2lei_clip_array (const float *src, int *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrintf (scaled_value) ;
+		value = SF_lrintf (scaled_value) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;
@@ -2337,7 +2337,7 @@ d2sc_array	(const double *src, signed char *dest, int count, int normalize)
 	normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-	{	dest [count] = lrint (src [count] * normfact) ;
+	{	dest [count] = SF_lrint (src [count] * normfact) ;
 		} ;
 } /* d2sc_array */
 
@@ -2358,7 +2358,7 @@ d2sc_clip_array	(const double *src, signed char *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		dest [count] = lrintf (scaled_value) >> 24 ;
+		dest [count] = SF_lrintf (scaled_value) >> 24 ;
 		} ;
 } /* d2sc_clip_array */
 
@@ -2395,7 +2395,7 @@ d2uc_array	(const double *src, unsigned char *dest, int count, int normalize)
 	normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-	{	dest [count] = lrint (src [count] * normfact) + 128 ;
+	{	dest [count] = SF_lrint (src [count] * normfact) + 128 ;
 		} ;
 } /* d2uc_array */
 
@@ -2416,7 +2416,7 @@ d2uc_clip_array	(const double *src, unsigned char *dest, int count, int normaliz
 			continue ;
 			} ;
 
-		dest [count] = (lrint (src [count] * normfact) >> 24) + 128 ;
+		dest [count] = (SF_lrint (src [count] * normfact) >> 24) + 128 ;
 		} ;
 } /* d2uc_clip_array */
 
@@ -2457,7 +2457,7 @@ d2bes_array (const double *src, short *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 2 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [1] = value ;
 		ucptr [0] = value >> 8 ;
 		} ;
@@ -2486,7 +2486,7 @@ d2bes_clip_array (const double *src, short *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [1] = value >> 16 ;
 		ucptr [0] = value >> 24 ;
 		} ;
@@ -2529,7 +2529,7 @@ d2les_array (const double *src, short *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 2 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		} ;
@@ -2558,7 +2558,7 @@ d2les_clip_array (const double *src, short *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [0] = value >> 16 ;
 		ucptr [1] = value >> 24 ;
 		} ;
@@ -2601,7 +2601,7 @@ d2let_array (const double *src, tribyte *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 3 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;
@@ -2633,7 +2633,7 @@ d2let_clip_array (const double *src, tribyte *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [0] = value >> 8 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 24 ;
@@ -2677,7 +2677,7 @@ d2bet_array (const double *src, tribyte *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 3 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [2] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [0] = value >> 16 ;
@@ -2709,7 +2709,7 @@ d2bet_clip_array (const double *src, tribyte *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [2] = value >> 8 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [0] = value >> 24 ;
@@ -2753,7 +2753,7 @@ d2bei_array (const double *src, int *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 4 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [0] = value >> 24 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 8 ;
@@ -2788,7 +2788,7 @@ d2bei_clip_array (const double *src, int *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [0] = value >> 24 ;
 		ucptr [1] = value >> 16 ;
 		ucptr [2] = value >> 8 ;
@@ -2833,7 +2833,7 @@ d2lei_array (const double *src, int *dest, int count, int normalize)
 
 	while (--count >= 0)
 	{	ucptr -= 4 ;
-		value = lrint (src [count] * normfact) ;
+		value = SF_lrint (src [count] * normfact) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;
@@ -2868,7 +2868,7 @@ d2lei_clip_array (const double *src, int *dest, int count, int normalize)
 			continue ;
 			} ;
 
-		value = lrint (scaled_value) ;
+		value = SF_lrint (scaled_value) ;
 		ucptr [0] = value ;
 		ucptr [1] = value >> 8 ;
 		ucptr [2] = value >> 16 ;

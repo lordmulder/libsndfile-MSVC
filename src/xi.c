@@ -1039,7 +1039,7 @@ f2dsc_array (XI_PRIVATE *pxi, const float *src, signed char *dest, int count, fl
 	last_val = pxi->last_16 >> 8 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = lrintf (src [k] * normfact) ;
+	{	current = SF_lrintf (src [k] * normfact) ;
 		dest [k] = current - last_val ;
 		last_val = current ;
 		} ;
@@ -1055,7 +1055,7 @@ d2dsc_array (XI_PRIVATE *pxi, const double *src, signed char *dest, int count, d
 	last_val = pxi->last_16 >> 8 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = lrint (src [k] * normfact) ;
+	{	current = SF_lrint (src [k] * normfact) ;
 		dest [k] = current - last_val ;
 		last_val = current ;
 		} ;
@@ -1169,7 +1169,7 @@ f2dles_array (XI_PRIVATE *pxi, const float *src, short *dest, int count, float n
 	last_val = pxi->last_16 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = lrintf (src [k] * normfact) ;
+	{	current = SF_lrintf (src [k] * normfact) ;
 		diff = current - last_val ;
 		dest [k] = LES2H_SHORT (diff) ;
 		last_val = current ;
@@ -1186,7 +1186,7 @@ d2dles_array (XI_PRIVATE *pxi, const double *src, short *dest, int count, double
 	last_val = pxi->last_16 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = lrint (src [k] * normfact) ;
+	{	current = SF_lrint (src [k] * normfact) ;
 		diff = current - last_val ;
 		dest [k] = LES2H_SHORT (diff) ;
 		last_val = current ;

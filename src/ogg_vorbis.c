@@ -585,7 +585,7 @@ vorbis_rshort (int samples, void *vptr, int off, int channels, float **pcm)
 	int i = 0, j, n ;
 	for (j = 0 ; j < samples ; j++)
 		for (n = 0 ; n < channels ; n++)
-			ptr [i++] = lrintf (pcm [n][j] * 32767.0f) ;
+			ptr [i++] = SF_lrintf (pcm [n][j] * 32767.0f) ;
 	return i ;
 } /* vorbis_rshort */
 
@@ -597,7 +597,7 @@ vorbis_rint (int samples, void *vptr, int off, int channels, float **pcm)
 
 	for (j = 0 ; j < samples ; j++)
 		for (n = 0 ; n < channels ; n++)
-			ptr [i++] = lrintf (pcm [n][j] * 2147483647.0f) ;
+			ptr [i++] = SF_lrintf (pcm [n][j] * 2147483647.0f) ;
 	return i ;
 } /* vorbis_rint */
 

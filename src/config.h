@@ -271,7 +271,7 @@ SF_llrintf (float flt)
 #define PACKAGE_NAME "libsndfile"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libsndfile 1.0.24"
+#define PACKAGE_STRING "libsndfile 1.0.25"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libsndfile"
@@ -295,7 +295,7 @@ SF_llrintf (float flt)
 #define SIZEOF_INT 4
 
 /* The size of `int64_t', as computed by sizeof. */
-#define SIZEOF_INT64_T 0
+#define SIZEOF_INT64_T 8
 
 /* The size of `loff_t', as computed by sizeof. */
 /* #undef SIZEOF_LOFF_T */

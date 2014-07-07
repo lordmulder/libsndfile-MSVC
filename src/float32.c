@@ -433,7 +433,7 @@ static void
 f2s_array (const float *src, int count, short *dest, float scale)
 {
 	while (--count >= 0)
-	{	dest [count] = lrintf (scale * src [count]) ;
+	{	dest [count] = SF_lrintf (scale * src [count]) ;
 		} ;
 } /* f2s_array */
 
@@ -447,14 +447,14 @@ f2s_clip_array (const float *src, int count, short *dest, float scale)
 		else if (CPU_CLIPS_NEGATIVE == 0 && tmp < -32768.0)
 			dest [count] = SHRT_MIN ;
 		else
-			dest [count] = lrintf (tmp) ;
+			dest [count] = SF_lrintf (tmp) ;
 		} ;
 } /* f2s_clip_array */
 
 static inline void
 f2i_array (const float *src, int count, int *dest, float scale)
 {	while (--count >= 0)
-	{	dest [count] = lrintf (scale * src [count]) ;
+	{	dest [count] = SF_lrintf (scale * src [count]) ;
 		} ;
 } /* f2i_array */
 
@@ -468,7 +468,7 @@ f2i_clip_array (const float *src, int count, int *dest, float scale)
 		else if (CPU_CLIPS_NEGATIVE == 0 && tmp < (-1.0 * INT_MAX))
 			dest [count] = INT_MIN ;
 		else
-			dest [count] = lrintf (tmp) ;
+			dest [count] = SF_lrintf (tmp) ;
 		} ;
 } /* f2i_clip_array */
 

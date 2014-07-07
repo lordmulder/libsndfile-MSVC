@@ -335,5 +335,8 @@
     <ClInclude Include="src\GSM610\gsm610_priv.h">
       <Filter>Header Files\GSM610</Filter>
     </ClInclude>
+    <ClInclude Include="src\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
