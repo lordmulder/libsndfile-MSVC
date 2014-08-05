@@ -31,6 +31,8 @@
 
 #if HAVE_EXTERNAL_LIBS
 
+#define FLAC__NO_DLL
+
 #include	<FLAC/stream_decoder.h>
 #include	<FLAC/stream_encoder.h>
 #include	<FLAC/metadata.h>
