@@ -67,7 +67,9 @@ SF_llrintf (float flt)
 }
 
 /* Nor does it have the snprintf function */
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define snprintf _snprintf
+#endif
 
 /* The above was added to provide the necessary support on Windows */
 
