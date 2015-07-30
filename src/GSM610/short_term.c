@@ -3,6 +3,7 @@
  * Universitaet Berlin.  See the accompanying file "COPYRIGHT" for
  * details.  THERE IS ABSOLUTELY NO WARRANTY FOR THIS SOFTWARE.
  */
+#pragma warning(disable:4244)
 
 #include <stdio.h>
 #include <assert.h>
