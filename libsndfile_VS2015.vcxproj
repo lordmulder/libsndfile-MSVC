@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\aiff.c" />
+    <ClCompile Include="src\alaw.c" />
+    <ClCompile Include="src\au.c" />
+    <ClCompile Include="src\audio_detect.c" />
+    <ClCompile Include="src\avr.c" />
+    <ClCompile Include="src\broadcast.c" />
+    <ClCompile Include="src\caf.c" />
+    <ClCompile Include="src\chanmap.c" />
+    <ClCompile Include="src\chunk.c" />
+    <ClCompile Include="src\command.c" />
+    <ClCompile Include="src\common.c" />
+    <ClCompile Include="src\dither.c" />
+    <ClCompile Include="src\double64.c" />
+    <ClCompile Include="src\dwd.c" />
+    <ClCompile Include="src\dwvw.c" />
+    <ClCompile Include="src\file_io.c" />
+    <ClCompile Include="src\flac.c" />
+    <ClCompile Include="src\float32.c" />
+    <ClCompile Include="src\g72x.c" />
+    <ClCompile Include="src\G72x\g721.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\G72x\g723_16.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\G72x\g723_24.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\G72x\g723_40.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\G72x\g72x.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\G72x\g72x_test.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)G72x\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)G72x_%(Filename).obj</ObjectFileName>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\gsm610.c" />
+    <ClCompile Include="src\GSM610\add.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\code.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\decode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\gsm_create.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\gsm_decode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\gsm_destroy.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\gsm_encode.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\gsm_option.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\long_term.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\lpc.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\preprocess.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\rpe.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\short_term.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\GSM610\table.c">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)GSM610_%(Filename).obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="src\htk.c" />
+    <ClCompile Include="src\id3.c" />
+    <ClCompile Include="src\ima_adpcm.c" />
+    <ClCompile Include="src\ima_oki_adpcm.c" />
+    <ClCompile Include="src\interleave.c" />
+    <ClCompile Include="src\ircam.c" />
+    <ClCompile Include="src\macbinary3.c" />
+    <ClCompile Include="src\macos.c" />
+    <ClCompile Include="src\mat4.c" />
+    <ClCompile Include="src\mat5.c" />
+    <ClCompile Include="src\mpc2k.c" />
+    <ClCompile Include="src\ms_adpcm.c" />
+    <ClCompile Include="src\nist.c" />
+    <ClCompile Include="src\ogg.c" />
+    <ClCompile Include="src\ogg_pcm.c" />
+    <ClCompile Include="src\ogg_speex.c" />
+    <ClCompile Include="src\ogg_vorbis.c" />
+    <ClCompile Include="src\paf.c" />
+    <ClCompile Include="src\pcm.c" />
+    <ClCompile Include="src\pvf.c" />
+    <ClCompile Include="src\raw.c" />
+    <ClCompile Include="src\rf64.c" />
+    <ClCompile Include="src\rx2.c" />
+    <ClCompile Include="src\sd2.c" />
+    <ClCompile Include="src\sds.c" />
+    <ClCompile Include="src\sndfile.c" />
+    <ClCompile Include="src\strings.c" />
+    <ClCompile Include="src\svx.c" />
+    <ClCompile Include="src\test_audio_detect.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_broadcast_var.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_conversions.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_endswap.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_file_io.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_float.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_ima_oki_adpcm.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_log_printf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_main.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_strncpy_crlf.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\txw.c" />
+    <ClCompile Include="src\ulaw.c" />
+    <ClCompile Include="src\voc.c" />
+    <ClCompile Include="src\vox_adpcm.c" />
+    <ClCompile Include="src\w64.c" />
+    <ClCompile Include="src\wav.c" />
+    <ClCompile Include="src\wav_w64.c" />
+    <ClCompile Include="src\windows.c" />
+    <ClCompile Include="src\wve.c" />
+    <ClCompile Include="src\xi.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\chanmap.h" />
+    <ClInclude Include="src\common.h" />
+    <ClInclude Include="src\config.h" />
+    <ClInclude Include="src\G72x\g72x.h" />
+    <ClInclude Include="src\G72x\g72x_priv.h" />
+    <ClInclude Include="src\GSM610\config.h" />
+    <ClInclude Include="src\GSM610\gsm.h" />
+    <ClInclude Include="src\GSM610\gsm610_priv.h" />
+    <ClInclude Include="src\ima_oki_adpcm.h" />
+    <ClInclude Include="src\ogg.h" />
+    <ClInclude Include="src\sfconfig.h" />
+    <ClInclude Include="src\sfendian.h" />
+    <ClInclude Include="src\sf_unistd.h" />
+    <ClInclude Include="src\test_main.h" />
+    <ClInclude Include="src\wav_w64.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{65B6B9E6-4D10-484B-BD8A-156FCA00DD4A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libsndfile_VS2015</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\lib\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\obj\$(Platform)\$(PlatformToolset)\$(Configuration)\</IntDir>
+    <TargetName>libsndfile_msvc.$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\lib\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)\obj\$(Platform)\$(PlatformToolset)\$(Configuration)\</IntDir>
+    <TargetName>libsndfile_msvc.$(PlatformToolset)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;LIBSNDFILE_PRIVATE_CONFIG;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)\etc\extra_libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>libFLAC_static.$(PlatformToolset).lib;libogg_static.$(PlatformToolset).lib;libvorbis_static.$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\etc\extra_libs\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;LIBSNDFILE_PRIVATE_CONFIG;_USE_MATH_DEFINES;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\src;$(SolutionDir)\etc\extra_libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <CreateHotpatchableImage>false</CreateHotpatchableImage>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>libFLAC_static.$(PlatformToolset).lib;libogg_static.$(PlatformToolset).lib;libvorbis_static.$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\etc\extra_libs\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
