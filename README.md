@@ -1,7 +1,7 @@
-﻿libsndfile for MSVC
+libsndfile for MSVC
 -------------------
 
-Static version **libsndfile** for use with *Microsoft Visual C++*, ported by LoRd_MuldeR <mulder2@gmx.de>
+Static version **libsndfile** for use with *Microsoft Visual C++*, ported by LoRd_MuldeR &lt;<mulder2@gmx.de>&gt;
 
 ## About ##
 
