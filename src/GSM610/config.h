@@ -22,7 +22,5 @@
 #define	HAS_UTIME	1		/* POSIX utime(path, times)	*/
 #define	HAS_UTIME_H	1		/* UTIME header file		*/
 
-#define inline	__inline
-
 #endif	/* CONFIG_H */
 
