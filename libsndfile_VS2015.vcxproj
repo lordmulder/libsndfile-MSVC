@@ -234,7 +234,10 @@
     <ClInclude Include="src\wavlike.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\version-metadata.rc" />
+    <ResourceCompile Include="src\version-metadata.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ResourceCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{65B6B9E6-4D10-484B-BD8A-156FCA00DD4A}</ProjectGuid>

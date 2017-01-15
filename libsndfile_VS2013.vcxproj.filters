@@ -25,6 +25,12 @@
     <Filter Include="Header Files\GSM610">
       <UniqueIdentifier>{672a7a5f-07c1-43dc-8a46-0c0841c94b15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ALAC">
+      <UniqueIdentifier>{d3e018a7-b7cc-47a5-8400-8696df9ae999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ALAC">
+      <UniqueIdentifier>{af4bcd04-0955-4986-8533-12bfb4538428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aiff.c">
@@ -103,9 +109,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ircam.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\macbinary3.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\macos.c">
@@ -219,9 +222,6 @@
     <ClCompile Include="src\wav.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wav_w64.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\windows.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -291,6 +291,48 @@
     <ClCompile Include="src\GSM610\table.c">
       <Filter>Source Files\GSM610</Filter>
     </ClCompile>
+    <ClCompile Include="src\ALAC\matrix_enc.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\ag_dec.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\ag_enc.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\alac_decoder.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\alac_encoder.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\ALACBitUtilities.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\dp_dec.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\dp_enc.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ALAC\matrix_dec.c">
+      <Filter>Source Files\ALAC</Filter>
+    </ClCompile>
+    <ClCompile Include="src\alac.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test_cart_var.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cart.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ogg_opus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wavlike.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chanmap.h">
@@ -317,9 +359,6 @@
     <ClInclude Include="src\test_main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\wav_w64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\G72x\g72x.h">
       <Filter>Header Files\G72x</Filter>
     </ClInclude>
@@ -338,5 +377,40 @@
     <ClInclude Include="src\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ALAC\ALACBitUtilities.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\dplib.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\EndianPortable.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\matrixlib.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\shift.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\aglib.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\alac_codec.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ALAC\ALACAudioTypes.h">
+      <Filter>Header Files\ALAC</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wavlike.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sndfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\version-metadata.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
