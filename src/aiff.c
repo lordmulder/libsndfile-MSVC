@@ -25,6 +25,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <inttypes.h>
+#include <malloc.h>
 
 #include "sndfile.h"
 #include "sfendian.h"
@@ -1476,7 +1477,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					}
 				else
 				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char textString [stringLength + 1] ;
+					char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
 					for (ps = 0 ; ps < stringLength ; ps++)
 						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
 					textString [stringLength] = '\0' ;
@@ -1505,7 +1506,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					}
 				else
 				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char textString [stringLength + 1] ;
+					char *textString = (char*) _alloca(stringLength + 1); /*char textString[stringLength + 1]*/
 					for (ps = 0 ; ps < stringLength ; ps++)
 						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
 					textString [stringLength] = '\0' ;
@@ -1535,7 +1536,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					}
 				else
 				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char textString [stringLength + 1] ;
+					char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
 					for (ps = 0 ; ps < stringLength ; ps++)
 						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
 					textString [stringLength] = '\0' ;
@@ -1645,7 +1646,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 				}
 			else
 			{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-				char textString [stringLength + 1] ;
+				char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
 				for (ps = 0 ; ps < stringLength ; ps++)
 					textString [ps] = psf->cues->cue_points [idx].name [ps] ;
 				textString [stringLength] = '\0' ;

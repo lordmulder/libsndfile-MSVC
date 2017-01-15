@@ -12,12 +12,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\aiff.c" />
+    <ClCompile Include="src\alac.c" />
+    <ClCompile Include="src\ALAC\ag_dec.c" />
+    <ClCompile Include="src\ALAC\ag_enc.c" />
+    <ClCompile Include="src\ALAC\ALACBitUtilities.c" />
+    <ClCompile Include="src\ALAC\alac_decoder.c" />
+    <ClCompile Include="src\ALAC\alac_encoder.c" />
+    <ClCompile Include="src\ALAC\dp_dec.c" />
+    <ClCompile Include="src\ALAC\dp_enc.c" />
+    <ClCompile Include="src\ALAC\matrix_dec.c" />
+    <ClCompile Include="src\ALAC\matrix_enc.c" />
     <ClCompile Include="src\alaw.c" />
     <ClCompile Include="src\au.c" />
     <ClCompile Include="src\audio_detect.c" />
     <ClCompile Include="src\avr.c" />
     <ClCompile Include="src\broadcast.c" />
     <ClCompile Include="src\caf.c" />
+    <ClCompile Include="src\cart.c" />
     <ClCompile Include="src\chanmap.c" />
     <ClCompile Include="src\chunk.c" />
     <ClCompile Include="src\command.c" />
@@ -119,7 +130,6 @@
     <ClCompile Include="src\ima_oki_adpcm.c" />
     <ClCompile Include="src\interleave.c" />
     <ClCompile Include="src\ircam.c" />
-    <ClCompile Include="src\macbinary3.c" />
     <ClCompile Include="src\macos.c" />
     <ClCompile Include="src\mat4.c" />
     <ClCompile Include="src\mat5.c" />
@@ -127,6 +137,7 @@
     <ClCompile Include="src\ms_adpcm.c" />
     <ClCompile Include="src\nist.c" />
     <ClCompile Include="src\ogg.c" />
+    <ClCompile Include="src\ogg_opus.c" />
     <ClCompile Include="src\ogg_pcm.c" />
     <ClCompile Include="src\ogg_speex.c" />
     <ClCompile Include="src\ogg_vorbis.c" />
@@ -146,6 +157,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\test_broadcast_var.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\test_cart_var.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -187,12 +202,20 @@
     <ClCompile Include="src\vox_adpcm.c" />
     <ClCompile Include="src\w64.c" />
     <ClCompile Include="src\wav.c" />
-    <ClCompile Include="src\wav_w64.c" />
+    <ClCompile Include="src\wavlike.c" />
     <ClCompile Include="src\windows.c" />
     <ClCompile Include="src\wve.c" />
     <ClCompile Include="src\xi.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ALAC\aglib.h" />
+    <ClInclude Include="src\ALAC\ALACAudioTypes.h" />
+    <ClInclude Include="src\ALAC\ALACBitUtilities.h" />
+    <ClInclude Include="src\ALAC\alac_codec.h" />
+    <ClInclude Include="src\ALAC\dplib.h" />
+    <ClInclude Include="src\ALAC\EndianPortable.h" />
+    <ClInclude Include="src\ALAC\matrixlib.h" />
+    <ClInclude Include="src\ALAC\shift.h" />
     <ClInclude Include="src\chanmap.h" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\config.h" />
@@ -206,8 +229,12 @@
     <ClInclude Include="src\sfconfig.h" />
     <ClInclude Include="src\sfendian.h" />
     <ClInclude Include="src\sf_unistd.h" />
+    <ClInclude Include="src\sndfile.h" />
     <ClInclude Include="src\test_main.h" />
-    <ClInclude Include="src\wav_w64.h" />
+    <ClInclude Include="src\wavlike.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\version-metadata.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{65B6B9E6-4D10-484B-BD8A-156FCA00DD4A}</ProjectGuid>
@@ -266,6 +293,7 @@
     <Lib>
       <AdditionalDependencies>libFLAC_static.$(PlatformToolset).lib;libogg_static.$(PlatformToolset).lib;libvorbis_static.$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\etc\extra_libs\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -295,6 +323,7 @@
     <Lib>
       <AdditionalDependencies>libFLAC_static.$(PlatformToolset).lib;libogg_static.$(PlatformToolset).lib;libvorbis_static.$(PlatformToolset).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\etc\extra_libs\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

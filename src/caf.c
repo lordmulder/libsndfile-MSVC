@@ -24,6 +24,7 @@
 #include	<ctype.h>
 #include	<math.h>
 #include	<inttypes.h>
+#include	<malloc.h>
 
 #include	"sndfile.h"
 #include	"sfendian.h"
@@ -835,7 +836,7 @@ string_hash32 (const char * str)
 
 static int
 caf_read_strings (SF_PRIVATE * psf, sf_count_t chunk_size)
-{	char buf [chunk_size - 4] ;
+{	char *buf = (char*) _alloca(chunk_size - 4) ; /*char buf [chunk_size - 4]*/
 	char *key, *value ;
 	uint32_t count, hash ;
 

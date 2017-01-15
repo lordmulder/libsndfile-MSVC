@@ -161,7 +161,7 @@ static void Fast_Autocorrelation (
 	scale = MAX_LONGWORD / f_L_ACF [0] ;
 
 	for (k = 0 ; k <= 8 ; k++)
-		L_ACF [k] = f_L_ACF [k] * scale ;
+		L_ACF [k] = (int32_t) (f_L_ACF [k] * scale) ;
 }
 #endif	/* defined (USE_FLOAT_MUL) && defined (FAST) */
 

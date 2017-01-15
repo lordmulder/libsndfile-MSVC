@@ -429,7 +429,7 @@ update (
 
 	mag = dq & 0x7FFF ;		/* prediction difference magnitude */
 	/* TRANS */
-	ylint = state_ptr->yl >> 15 ;	/* exponent part of yl */
+	ylint = (short) state_ptr->yl >> 15 ;	/* exponent part of yl */
 	ylfrac = (state_ptr->yl >> 10) & 0x1F ;	/* fractional part of yl */
 	thr1 = (32 + ylfrac) << ylint ;		/* threshold */
 	thr2 = (ylint > 9) ? 31 << 10 : thr1 ;	/* limit thr2 to 31 << 10 */

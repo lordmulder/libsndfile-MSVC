@@ -16,6 +16,10 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
+#ifdef _MSC_VER
+#define _CRT_RAND_S 1
+#endif
+
 #include <config.h>
 
 #include <stdarg.h>
@@ -32,6 +36,14 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+
+#ifdef _MSC_VER
+#include <io.h> /* required for access() function*/
+#define R_OK 4  /* Test for read permission. */
+#define W_OK 2  /* Test for write permission. */
+#define X_OK 1  /* execute permission - unsupported in windows*/
+#define F_OK 0  /* Test for existence. */
+#endif
 
 /*-----------------------------------------------------------------------------------------------
 ** psf_log_printf allows libsndfile internal functions to print to an internal parselog which
@@ -1339,8 +1351,14 @@ u_bitwidth_to_subformat (int bits)
 
 int32_t
 psf_rand_int32 (void)
-{	static uint64_t value = 0 ;
-	int k, count ;
+{	static uint64_t value = 0;
+	int k, count;
+
+#ifdef _MSC_VER
+	uint32_t rand32;
+	if (rand_s(&rand32) == 0)
+		return (int32_t) rand32;
+#endif
 
 	if (value == 0)
 	{
@@ -1684,7 +1702,7 @@ psf_open_tmpfile (char * fname, size_t fnamelen)
 		tmpdir = tmpdir == NULL ? "/tmp" : tmpdir ;
 		} ;
 
-	if (tmpdir && access (tmpdir, R_OK | W_OK | X_OK) == 0)
+	if (tmpdir && _access (tmpdir, R_OK | W_OK | X_OK) == 0)
 	{	snprintf (fname, fnamelen, "%s/%x%x-alac.tmp", tmpdir, psf_rand_int32 (), psf_rand_int32 ()) ;
 		if ((file = fopen (fname, "wb+")) != NULL)
 			return file ;

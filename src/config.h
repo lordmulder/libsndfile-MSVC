@@ -1,8 +1,76 @@
+/* MSVC notice: */
+/* This file was auto-generated on MinGW/GCC and then modified to support MSVC.
+
 /* src/config.h.  Generated from config.h.in by configure.  */
 /* src/config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* The following was added to provide the necessary support on Windows */
+#if defined(LIBSNDFILE_PRIVATE_CONFIG) && !defined(LIBSNDFILE_HAVE_CONFIG)
+#define LIBSNDFILE_HAVE_CONFIG 1
+#pragma warning (disable : 4244)
+#pragma warning (disable : 4761)
+
+#define ssize_t           SSIZE_T
+#define __func__          __FUNCTION__
+#define inline            __inline
+
+/* Win32 doesn't seem to have these functions. */
+/* Therefore implement inline versions of these functions here. */
+__inline long int 
+SF_lrint (double flt)
+{	int intgr;
+
+	_asm
+	{	fld flt
+		fistp intgr
+		} ;
+		
+	return intgr ;
+}
+
+__inline long int 
+SF_lrintf (float flt)
+{	int intgr;
+
+	_asm
+	{	fld flt
+		fistp intgr
+		} ;
+		
+	return intgr ;
+}
+
+__inline long long int 
+SF_llrint (double flt)
+{	long long int intgr;
+
+	_asm
+	{	fld flt
+		fistp intgr
+		} ;
+		
+	return intgr ;
+}
+
+__inline long long int 
+SF_llrintf (float flt)
+{	long long int intgr;
+
+	_asm
+	{	fld flt
+		fistp intgr
+		} ;
+		
+	return intgr ;
+}
+
+/* Nor does it have the snprintf function */
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#define snprintf _snprintf
+#endif
+
 /* Set to 1 if the compile is GNU GCC. */
-#define COMPILER_IS_GCC 1
+/* #undef COMPILER_IS_GCC 1 */
 
 /* Target processor clips on negative float to int conversion. */
 #define CPU_CLIPS_NEGATIVE 1
@@ -68,7 +136,7 @@
 #define HAVE_GETPAGESIZE 1
 
 /* Define to 1 if you have the `gettimeofday' function. */
-#define HAVE_GETTIMEOFDAY 1
+/* #define HAVE_GETTIMEOFDAY*/
 
 /* Define to 1 if you have the `gmtime' function. */
 #define HAVE_GMTIME 1
@@ -158,7 +226,7 @@
 #define HAVE_SYS_STAT_H 1
 
 /* Define to 1 if you have the <sys/time.h> header file. */
-#define HAVE_SYS_TIME_H 1
+/* #undef HAVE_SYS_TIME_H */
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
@@ -167,7 +235,7 @@
 /* #undef HAVE_SYS_WAIT_H */
 
 /* Define to 1 if you have the <unistd.h> header file. */
-#define HAVE_UNISTD_H 1
+/* #undef HAVE_UNISTD_H*/
 
 /* Define to 1 if you have the `vsnprintf' function. */
 #define HAVE_VSNPRINTF 1
@@ -215,7 +283,7 @@
 #define PACKAGE_VERSION "1.0.27"
 
 /* Set to maximum allowed value of sf_count_t type. */
-#define SF_COUNT_MAX 0x7FFFFFFFFFFFFFFFLL
+#define SF_COUNT_MAX 0x7fffffffffffffffi64
 
 /* The size of `double', as computed by sizeof. */
 #define SIZEOF_DOUBLE 8
@@ -324,4 +392,6 @@
 /* #undef _POSIX_SOURCE */
 
 /* Set to 1 to use C99 printf/snprintf in MinGW. */
-#define __USE_MINGW_ANSI_STDIO 1
+/* #undef __USE_MINGW_ANSI_STDIO */
+
+#endif

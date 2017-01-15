@@ -263,7 +263,7 @@ sd2_write_rsrc_fork (SF_PRIVATE *psf, int UNUSED (calc_length))
 			} ;
 
 		/* Turn name string into a pascal string. */
-		str_rsrc [k].name [0] = strlen (str_rsrc [k].name) - 1 ;
+	str_rsrc[k].name[0] = (char) SF_MIN((size_t)CHAR_MAX, strlen(str_rsrc[k].name) - 1);
 		} ;
 
 	rsrc.data_offset = 0x100 ;
@@ -283,7 +283,7 @@ sd2_write_rsrc_fork (SF_PRIVATE *psf, int UNUSED (calc_length))
 	write_int (rsrc.rsrc_data, 4, rsrc.map_offset) ;
 	write_int (rsrc.rsrc_data, 8, rsrc.data_length) ;
 
-	write_char (rsrc.rsrc_data, 0x30, strlen (psf->file.name.c)) ;
+	write_char (rsrc.rsrc_data, 0x30, (char) SF_MIN((size_t)UCHAR_MAX, strlen (psf->file.name.c))) ;
 	write_str (rsrc.rsrc_data, 0x31, psf->file.name.c, strlen (psf->file.name.c)) ;
 
 	write_short (rsrc.rsrc_data, 0x50, 0) ;

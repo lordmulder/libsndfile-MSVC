@@ -17,7 +17,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
 			VALUE "FileDescription", "A library for reading and writing audio files."
 			VALUE "FileVersion", "1.0.27.0\0"
 			VALUE "Full Version", "1.0.27"
-			VALUE "InternalName", "libsndfile"
+			VALUE "InternalName", "libsndfile-MSVC"
 			VALUE "LegalCopyright", "Copyright (C) 1999-2012, Licensed LGPL"
 			VALUE "OriginalFilename", "libsndfile-1.dll"
 			VALUE "ProductName", "libsndfile-1 DLL"

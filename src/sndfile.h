@@ -33,6 +33,17 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+/* Win32 DLL support macros. */
+#ifdef LIBSNDFILE_DLL
+#  ifdef LIBSNDFILE_DLL_EXPORT
+#    define _DLL __declspec(dllexport)
+#  else
+#    define _DLL __declspec(dllimport)
+#  endif
+#else
+#  define _DLL
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
