@@ -31,6 +31,10 @@
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 
+#if (!(defined(LIBSNDFILE_DLL) && LIBSNDFILE_DLL))
+#define FLAC__NO_DLL
+#endif
+
 #include	<FLAC/stream_decoder.h>
 #include	<FLAC/stream_encoder.h>
 #include	<FLAC/metadata.h>
