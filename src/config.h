@@ -124,7 +124,7 @@ SF_llrintf (float flt)
 #define HAVE_FSTAT 1
 
 /* Define to 1 if you have the `fstat64' function. */
-/* #undef HAVE_FSTAT64 */
+#define HAVE_FSTAT64 1
 
 /* Define to 1 if you have the `fsync' function. */
 /* #undef HAVE_FSYNC */
@@ -187,7 +187,7 @@ SF_llrintf (float flt)
 #define HAVE_OPEN 1
 
 /* Define to 1 if you have the `pipe' function. */
-/* #undef HAVE_PIPE */
+#define HAVE_PIPE 1
 
 /* Define to 1 if you have the `read' function. */
 #define HAVE_READ 1
