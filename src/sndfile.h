@@ -467,8 +467,6 @@ typedef struct
 	} loops [16] ; /* make variable in a sensible way */
 } SF_INSTRUMENT ;
 
-
-
 /* Struct used to retrieve loop information from a file.*/
 typedef struct
 {
@@ -746,7 +744,6 @@ _DLL int sf_close (SNDFILE *sndfile) ;
 _DLL void sf_write_sync (SNDFILE *sndfile) ;
 
 
-
 /* The function sf_wchar_open() is Windows Only!
 ** Open a file passing in a Windows Unicode filename. Otherwise, this is
 ** the same as sf_open().
@@ -759,10 +756,8 @@ _DLL void sf_write_sync (SNDFILE *sndfile) ;
 */
 
 #if (defined (ENABLE_SNDFILE_WINDOWS_PROTOTYPES) && ENABLE_SNDFILE_WINDOWS_PROTOTYPES)
-SNDFILE* sf_wchar_open (LPCWSTR wpath, int mode, SF_INFO *sfinfo) ;
+SNDFILE* sf_wchar_open (const wchar_t *wpath, int mode, SF_INFO *sfinfo) ;
 #endif
-
-
 
 
 /* Getting and setting of chunks from within a sound file.
