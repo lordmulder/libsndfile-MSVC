@@ -8,7 +8,6 @@
 #if defined(LIBSNDFILE_PRIVATE_CONFIG) && !defined(LIBSNDFILE_HAVE_CONFIG)
 #define LIBSNDFILE_HAVE_CONFIG 1
 #pragma warning (disable : 4244)
-#pragma warning (disable : 4761)
 
 #define ssize_t           SSIZE_T
 #define __func__          __FUNCTION__

@@ -36,12 +36,12 @@
 /* Win32 DLL support macros. */
 #ifdef LIBSNDFILE_DLL
 #  ifdef LIBSNDFILE_DLL_EXPORT
-#    define _DLL __declspec(dllexport)
+#    define SF_DLL __declspec(dllexport)
 #  else
-#    define _DLL __declspec(dllimport)
+#    define SF_DLL __declspec(dllimport)
 #  endif
 #else
-#  define _DLL
+#  define SF_DLL
 #endif
 
 #ifdef __cplusplus
@@ -568,7 +568,7 @@ typedef	struct SF_VIRTUAL_IO SF_VIRTUAL_IO ;
 ** All calls to sf_open() should be matched with a call to sf_close().
 */
 
-_DLL SNDFILE* sf_open (const char *path, int mode, SF_INFO *sfinfo) ;
+SF_DLL SNDFILE* sf_open (const char *path, int mode, SF_INFO *sfinfo) ;
 
 
 /* Use the existing file descriptor to create a SNDFILE object. If close_desc
@@ -583,23 +583,23 @@ _DLL SNDFILE* sf_open (const char *path, int mode, SF_INFO *sfinfo) ;
 
 */
 
-_DLL SNDFILE* sf_open_fd (int fd, int mode, SF_INFO *sfinfo, int close_desc) ;
+SF_DLL SNDFILE* sf_open_fd (int fd, int mode, SF_INFO *sfinfo, int close_desc) ;
 
-_DLL SNDFILE* sf_open_virtual (SF_VIRTUAL_IO *sfvirtual, int mode, SF_INFO *sfinfo, void *user_data) ;
+SF_DLL SNDFILE* sf_open_virtual (SF_VIRTUAL_IO *sfvirtual, int mode, SF_INFO *sfinfo, void *user_data) ;
 
 
 /* sf_error () returns a error number which can be translated to a text
 ** string using sf_error_number().
 */
 
-_DLL int sf_error (SNDFILE *sndfile) ;
+SF_DLL int sf_error (SNDFILE *sndfile) ;
 
 
 /* sf_strerror () returns to the caller a pointer to the current error message for
 ** the given SNDFILE.
 */
 
-_DLL const char* sf_strerror (SNDFILE *sndfile) ;
+SF_DLL const char* sf_strerror (SNDFILE *sndfile) ;
 
 
 /* sf_error_number () allows the retrieval of the error string for each internal
@@ -607,7 +607,7 @@ _DLL const char* sf_strerror (SNDFILE *sndfile) ;
 **
 */
 
-_DLL const char* sf_error_number (int errnum) ;
+SF_DLL const char* sf_error_number (int errnum) ;
 
 
 /* The following two error functions are deprecated but they will remain in the
@@ -615,18 +615,18 @@ _DLL const char* sf_error_number (int errnum) ;
 ** in their place.
 */
 
-_DLL int sf_perror (SNDFILE *sndfile) ;
-_DLL int sf_error_str (SNDFILE *sndfile, char* str, size_t len) ;
+SF_DLL int sf_perror (SNDFILE *sndfile) ;
+SF_DLL int sf_error_str (SNDFILE *sndfile, char* str, size_t len) ;
 
 
 /* Return TRUE if fields of the SF_INFO struct are a valid combination of values. */
 
-_DLL int sf_command (SNDFILE *sndfile, int command, void *data, int datasize) ;
+SF_DLL int sf_command (SNDFILE *sndfile, int command, void *data, int datasize) ;
 
 
 /* Return TRUE if fields of the SF_INFO struct are a valid combination of values. */
 
-_DLL int sf_format_check (const SF_INFO *info) ;
+SF_DLL int sf_format_check (const SF_INFO *info) ;
 
 
 /* Seek within the waveform data chunk of the SNDFILE. sf_seek () uses
@@ -647,7 +647,7 @@ enum
 	SF_SEEK_END = SEEK_END
 } ;
 
-_DLL sf_count_t sf_seek (SNDFILE *sndfile, sf_count_t frames, int whence) ;
+SF_DLL sf_count_t sf_seek (SNDFILE *sndfile, sf_count_t frames, int whence) ;
 
 
 /* Functions for retrieving and setting string data within sound files.
@@ -658,14 +658,14 @@ _DLL sf_count_t sf_seek (SNDFILE *sndfile, sf_count_t frames, int whence) ;
 ** returns NULL.
 */
 
-_DLL int sf_set_string (SNDFILE *sndfile, int str_type, const char* str) ;
+SF_DLL int sf_set_string (SNDFILE *sndfile, int str_type, const char* str) ;
 
-_DLL const char* sf_get_string (SNDFILE *sndfile, int str_type) ;
+SF_DLL const char* sf_get_string (SNDFILE *sndfile, int str_type) ;
 
 
 /* Return the library version string. */
 
-_DLL const char * sf_version_string (void) ;
+SF_DLL const char * sf_version_string (void) ;
 
 /* Return the current byterate at this point in the file. The byte rate in this
 ** case is the number of bytes per second of audio data. For instance, for a
@@ -678,13 +678,13 @@ _DLL const char * sf_version_string (void) ;
 ** To get the bitrate, multiple this value by 8.
 ** Returns -1 for unknown.
 */
-_DLL int sf_current_byterate (SNDFILE *sndfile) ;
+SF_DLL int sf_current_byterate (SNDFILE *sndfile) ;
 
 /* Functions for reading/writing the waveform data of a sound file.
 */
 
-_DLL sf_count_t sf_read_raw (SNDFILE *sndfile, void *ptr, sf_count_t bytes) ;
-_DLL sf_count_t sf_write_raw (SNDFILE *sndfile, const void *ptr, sf_count_t bytes) ;
+SF_DLL sf_count_t sf_read_raw (SNDFILE *sndfile, void *ptr, sf_count_t bytes) ;
+SF_DLL sf_count_t sf_write_raw (SNDFILE *sndfile, const void *ptr, sf_count_t bytes) ;
 
 
 /* Functions for reading and writing the data chunk in terms of frames.
@@ -697,17 +697,17 @@ _DLL sf_count_t sf_write_raw (SNDFILE *sndfile, const void *ptr, sf_count_t byte
 ** All of these read/write function return number of frames read/written.
 */
 
-_DLL sf_count_t sf_readf_short (SNDFILE *sndfile, short *ptr, sf_count_t frames) ;
-_DLL sf_count_t sf_writef_short (SNDFILE *sndfile, const short *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_readf_short (SNDFILE *sndfile, short *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_writef_short (SNDFILE *sndfile, const short *ptr, sf_count_t frames) ;
 
-_DLL sf_count_t sf_readf_int (SNDFILE *sndfile, int *ptr, sf_count_t frames) ;
-_DLL sf_count_t sf_writef_int (SNDFILE *sndfile, const int *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_readf_int (SNDFILE *sndfile, int *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_writef_int (SNDFILE *sndfile, const int *ptr, sf_count_t frames) ;
 
-_DLL sf_count_t sf_readf_float (SNDFILE *sndfile, float *ptr, sf_count_t frames) ;
-_DLL sf_count_t sf_writef_float (SNDFILE *sndfile, const float *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_readf_float (SNDFILE *sndfile, float *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_writef_float (SNDFILE *sndfile, const float *ptr, sf_count_t frames) ;
 
-_DLL sf_count_t sf_readf_double (SNDFILE *sndfile, double *ptr, sf_count_t frames) ;
-_DLL sf_count_t sf_writef_double (SNDFILE *sndfile, const double *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_readf_double (SNDFILE *sndfile, double *ptr, sf_count_t frames) ;
+SF_DLL sf_count_t sf_writef_double (SNDFILE *sndfile, const double *ptr, sf_count_t frames) ;
 
 
 /* Functions for reading and writing the data chunk in terms of items.
@@ -715,17 +715,17 @@ _DLL sf_count_t sf_writef_double (SNDFILE *sndfile, const double *ptr, sf_count_
 ** All of these read/write function return number of items read/written.
 */
 
-_DLL sf_count_t sf_read_short (SNDFILE *sndfile, short *ptr, sf_count_t items) ;
-_DLL sf_count_t sf_write_short (SNDFILE *sndfile, const short *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_read_short (SNDFILE *sndfile, short *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_write_short (SNDFILE *sndfile, const short *ptr, sf_count_t items) ;
 
-_DLL sf_count_t sf_read_int (SNDFILE *sndfile, int *ptr, sf_count_t items) ;
-_DLL sf_count_t sf_write_int (SNDFILE *sndfile, const int *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_read_int (SNDFILE *sndfile, int *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_write_int (SNDFILE *sndfile, const int *ptr, sf_count_t items) ;
 
-_DLL sf_count_t sf_read_float (SNDFILE *sndfile, float *ptr, sf_count_t items) ;
-_DLL sf_count_t sf_write_float (SNDFILE *sndfile, const float *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_read_float (SNDFILE *sndfile, float *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_write_float (SNDFILE *sndfile, const float *ptr, sf_count_t items) ;
 
-_DLL sf_count_t sf_read_double (SNDFILE *sndfile, double *ptr, sf_count_t items) ;
-_DLL sf_count_t sf_write_double (SNDFILE *sndfile, const double *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_read_double (SNDFILE *sndfile, double *ptr, sf_count_t items) ;
+SF_DLL sf_count_t sf_write_double (SNDFILE *sndfile, const double *ptr, sf_count_t items) ;
 
 
 /* Close the SNDFILE and clean up all memory allocations associated with this
@@ -733,7 +733,7 @@ _DLL sf_count_t sf_write_double (SNDFILE *sndfile, const double *ptr, sf_count_t
 ** Returns 0 on success, or an error number.
 */
 
-_DLL int sf_close (SNDFILE *sndfile) ;
+SF_DLL int sf_close (SNDFILE *sndfile) ;
 
 
 /* If the file is opened SFM_WRITE or SFM_RDWR, call fsync() on the file
@@ -741,7 +741,7 @@ _DLL int sf_close (SNDFILE *sndfile) ;
 ** no action is taken.
 */
 
-_DLL void sf_write_sync (SNDFILE *sndfile) ;
+SF_DLL void sf_write_sync (SNDFILE *sndfile) ;
 
 
 /* The function sf_wchar_open() is Windows Only!
@@ -785,7 +785,7 @@ typedef struct SF_CHUNK_INFO SF_CHUNK_INFO ;
 ** The chunk_info->data pointer must be valid until the file is closed.
 ** Returns SF_ERR_NO_ERROR on success or non-zero on failure.
 */
-_DLL int sf_set_chunk (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info) ;
+SF_DLL int sf_set_chunk (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info) ;
 
 /*
 ** An opaque structure to an iterator over the all chunks of a given id
@@ -808,7 +808,7 @@ typedef	struct SF_CHUNK_ITERATOR SF_CHUNK_ITERATOR ;
 ** The memory for the iterator belongs to the SNDFILE* handle and is freed when
 ** sf_close() is called.
 */
-_DLL SF_CHUNK_ITERATOR *
+SF_DLL SF_CHUNK_ITERATOR *
 sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info) ;
 
 /* Iterate through chunks by incrementing the iterator.
@@ -822,7 +822,7 @@ sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info) ;
 ** The returned iterator will stay valid until sf_get_chunk_iterator_next
 **      is called again, the sndfile is closed or a new chunk us added.
 */
-_DLL SF_CHUNK_ITERATOR *
+SF_DLL SF_CHUNK_ITERATOR *
 sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator) ;
 
 
@@ -837,7 +837,7 @@ sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator) ;
 ** The function will return SF_ERR_NO_ERROR on success or non-zero on
 ** failure.
 */
-_DLL int
+SF_DLL int
 sf_get_chunk_size (const SF_CHUNK_ITERATOR * it, SF_CHUNK_INFO * chunk_info) ;
 
 /* Get the specified chunk data.
@@ -851,7 +851,7 @@ sf_get_chunk_size (const SF_CHUNK_ITERATOR * it, SF_CHUNK_INFO * chunk_info) ;
 ** The function will return SF_ERR_NO_ERROR on success or non-zero on
 ** failure.
 */
-_DLL int
+SF_DLL int
 sf_get_chunk_data (const SF_CHUNK_ITERATOR * it, SF_CHUNK_INFO * chunk_info) ;
 
 
