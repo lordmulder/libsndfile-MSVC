@@ -14,8 +14,8 @@
 #define __func__          __FUNCTION__
 #define inline            __inline
 
-/* Win32 doesn't seem to have these functions. */
-/* Therefore implement inline versions of these functions here. */
+/* Older versions of MSVC don't seem to have these functions. */
+#if defined(_MSC_VER) && (_MSC_VER < 1800)
 __inline long int 
 SF_lrint (double flt)
 {	int intgr;
@@ -63,6 +63,7 @@ SF_llrintf (float flt)
 		
 	return intgr ;
 }
+#endif
 
 /* Nor does it have the snprintf function */
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
