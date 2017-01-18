@@ -298,7 +298,7 @@
     </Lib>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)\include\NUL" mkdir "$(SolutionDir)\include"
-copy "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
+copy /Y "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -330,7 +330,7 @@ copy "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
     </Lib>
     <PostBuildEvent>
       <Command>if not exist "$(SolutionDir)\include\NUL" mkdir "$(SolutionDir)\include"
-copy "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
+copy /Y "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
