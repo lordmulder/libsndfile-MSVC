@@ -296,6 +296,10 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(SolutionDir)\include\NUL" mkdir "$(SolutionDir)\include"
+copy "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -324,6 +328,10 @@
     <Lib>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
+    <PostBuildEvent>
+      <Command>if not exist "$(SolutionDir)\include\NUL" mkdir "$(SolutionDir)\include"
+copy "$(SolutionDir)\src\sndfile.h" "$(SolutionDir)\include\sndfile.h"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

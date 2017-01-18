@@ -1,9 +1,13 @@
 /out
 /obj
 /lib
+/include
+/examples/obj
+/examples/bin
 *.suo
 *.sdf
 *.opensdf
 *.opendb
-*.VC.db
 *.html
+*.VC.db
+*.user
