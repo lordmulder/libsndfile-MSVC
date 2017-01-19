@@ -25,15 +25,46 @@ Support for **Ogg**, **Vorbis** and **FLAC** is enabled using "extra" libraries 
 Even though *libsndfile* is released under the *GNU Lesser General Public License*, which explicitly *does* allow linking the library (i.e. libsndfile) against proprietary programs, this is *only* applicable as long as the library (i.e. libsndfile) remains *separate* from the proprietary portion of the program &ndash; in the form of a **shared** library. However, as soon as the library (i.e. libsndfile) is linked **statically** into your program, your program *as a whole* **must** be released under the *GNU General Public License*!
 
 
+# Build Prerequisites
+
+In order to build libsndfile-MSVC with Vorbis and FLAC support enabled, you need the "extra" libraries by Xiph.org:
+```
+BaseDirectory\
+├─ libsndfile-MSVC\
+│  ├─ libsndfile_VS2015.sln
+│  ├─ libsndfile_VS2015.vcxproj
+│  └─ [...]
+└─ Prerequisites\
+   └─ XiphAudio\
+      ├─ include\
+      │  ├─ FLAC\
+      │  │  ├─ stream_decoder.h
+      │  │  ├─ stream_encoder.h
+      │  │  └─ metadata.h
+      │  ├─ ogg\
+      │  │  ├─ ogg.h
+      │  │  └─ os_types.h
+      │  └─ vorbis\
+      │     ├─ codec.h
+      │     ├─ vorbisenc.h
+      │     └─ vorbisfile.h
+      └─ lib\
+         └─ Win32\
+            └─ static\
+               ├─ libFLAC_static.v140_xp.lib
+               ├─ libogg_static.v140_xp.lib
+               └─ libvorbis_static.v140_xp.lib
+```
+
 # Source Code #
 
 The source code of **libsndfile for MSVC** is available from our *Git* mirrors:
 
-* https://github.com/lordmulder/libsndfile-MSVC.git [[Browse](https://github.com/lordmulder/libsndfile-MSVC)]
+* https://github.com/lordmulder/libsndfile-MSVC.git [[Browse]](https://github.com/lordmulder/libsndfile-MSVC)
 
-* https://bitbucket.org/muldersoft/libsndfile-msvc.git [[Browse](https://bitbucket.org/muldersoft/libsndfile-msvc)]
+* https://bitbucket.org/muldersoft/libsndfile-msvc.git [[Browse]](https://bitbucket.org/muldersoft/libsndfile-msvc)
 
-* https://gitlab.com/lord_mulder/libsndfile-MSVC.git [[Browse](https://gitlab.com/lord_mulder/libsndfile-MSVC)]
+* https://gitlab.com/lord_mulder/libsndfile-MSVC.git [[Browse]](https://gitlab.com/lord_mulder/libsndfile-MSVC)
 
 &nbsp;
 
