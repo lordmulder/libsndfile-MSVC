@@ -7,7 +7,7 @@ Static **libsndfile** for use with *Microsoft Visual C++*, ported by LoRd_MuldeR
 
 ## Details ##
 
-[**Libsndfile**](http://www.mega-nerd.com/libsndfile/) is a C library for reading and writing files containing sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through one standard library interface. Unfortunately, the "official" version of *libsndfile* does **not** currently support building the library with *Microsoft Visual C++* (MSVC). It is still possible to build a Windows DLL of *libsndfile* with [MinGW/GCC](http://mingw-w64.sourceforge.net/) and then link the MinGW-compiled DLL against your MSVC-compiled program files. However, to the best of my knowledge, this method does **not** work if you intend to link *libsndfile* as a ***static*** library! At least I never got it to work properly ;-)
+[**Libsndfile**](http://www.mega-nerd.com/libsndfile/) is a C library for reading and writing files containing sampled sound (such as MS Windows WAV and the Apple/SGI AIFF format) through one standard library interface. Unfortunately, the "official" version of *libsndfile* does **not** currently support building the library with *Microsoft Visual C++* (MSVC). It is still possible to build a Windows DLL of *libsndfile* with [MinGW/GCC](http://mingw-w64.sourceforge.net/) and then link the MinGW-compiled DLL against your MSVC-compiled program files. However, to the best of my knowledge, this method does **not** work if you intend to link *libsndfile* as a ***static*** library! At least I never got it to work ;-)
 
 The purpose of this repository is providing solution/project files that can be used to compile the latest version of *libsndfile* under MSVC, resulting in a "native" MSVC library that allows for **static** linking with MSVC-compiled programs. The code in this repository is identical to the "official" *libsndfile* codebase, except that solution/project files for MSVC have been added and that <tt>config.h</tt> has been adjusted. Furthermore, a few compatibility (build) fixes were required for MSVC, some of which were backported from [Audacity](http://audacity.sourceforge.net/). In my tests, the MSVC binary of *libsndfile* is only slightly slower than the MinGW one.
 
@@ -35,7 +35,7 @@ BaseDirectory\
 │  ├─ libsndfile_VS2015.vcxproj
 │  └─ [...]
 └─ Prerequisites\
-   └─ XiphAudio\
+   └─ XiphAudioLibs\
       ├─ include\
       │  ├─ FLAC\
       │  │  ├─ stream_decoder.h
@@ -60,11 +60,11 @@ BaseDirectory\
 
 The source code of **libsndfile for MSVC** is available from our *Git* mirrors:
 
-* https://github.com/lordmulder/libsndfile-MSVC.git [[Browse]](https://github.com/lordmulder/libsndfile-MSVC)
+* https://github.com/lordmulder/libsndfile-MSVC.git &ndash; [[Browse]](https://github.com/lordmulder/libsndfile-MSVC)
 
-* https://bitbucket.org/muldersoft/libsndfile-msvc.git [[Browse]](https://bitbucket.org/muldersoft/libsndfile-msvc)
+* https://bitbucket.org/muldersoft/libsndfile-msvc.git &ndash; [[Browse]](https://bitbucket.org/muldersoft/libsndfile-msvc)
 
-* https://gitlab.com/lord_mulder/libsndfile-MSVC.git [[Browse]](https://gitlab.com/lord_mulder/libsndfile-MSVC)
+* https://gitlab.com/lord_mulder/libsndfile-MSVC.git &ndash; [[Browse]](https://gitlab.com/lord_mulder/libsndfile-MSVC)
 
 &nbsp;
 
