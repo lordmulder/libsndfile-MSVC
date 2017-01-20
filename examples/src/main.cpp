@@ -45,8 +45,8 @@ static void process_samples(const double max_sample, double *const buffer, const
 static int example_main(int argc, wchar_t *argv[])
 {
 	/* Print logo */
-	printf("libsndfile-MSVC example application [%s]\n", __DATE__);
-	printf("Powered by %s\n\n", sf_version_string());
+	printf("libsndfile-MSVC example application [%s]\n\n", __DATE__);
+	printf("Powered by %s,\nCopyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>\n\n", sf_version_string());
 
 	/* Check for arguments */
 	if (argc < 3)
@@ -156,17 +156,19 @@ static int example_main(int argc, wchar_t *argv[])
 		}
 		printf("\n\n");
 
-		/*Rewind file*/
-		if (sf_seek(handle_src, 0, SEEK_SET) != 0)
+		/*Rewind file after first pass*/
+		if (pass < 1)
 		{
-			printf("Error: Failed to rewind audio file!\n\n");
-			delete[] buffer;
-			sf_close(handle_out);
-			sf_close(handle_src);
-			return 5;
+			if (sf_seek(handle_src, 0, SEEK_SET) != 0)
+			{
+				printf("Error: Failed to rewind audio file!\n\n");
+				delete[] buffer;
+				sf_close(handle_out);
+				sf_close(handle_src);
+				return 5;
+			}
 		}
 	}
-
 
 	/* Completed */
 	printf("Everything completed succesfully.\n\n");
