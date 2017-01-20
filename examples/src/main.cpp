@@ -45,7 +45,7 @@ static void process_samples(const double max_sample, double *const buffer, const
 static int example_main(int argc, wchar_t *argv[])
 {
 	/* Print logo */
-	printf("libsndfile-MSVC example application [%s]\n\n", __DATE__);
+	printf("libsndfile-MSVC example program [%s] [MSVC v%u]\n\n", __DATE__, _MSC_VER);
 	printf("Powered by %s,\nCopyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>\n\n", sf_version_string());
 
 	/* Check for arguments */
