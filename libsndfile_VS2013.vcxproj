@@ -146,6 +146,7 @@
     <ClCompile Include="src\pvf.c" />
     <ClCompile Include="src\raw.c" />
     <ClCompile Include="src\rf64.c" />
+    <ClCompile Include="src\lrint_hack.c" />
     <ClCompile Include="src\rx2.c" />
     <ClCompile Include="src\sd2.c" />
     <ClCompile Include="src\sds.c" />
