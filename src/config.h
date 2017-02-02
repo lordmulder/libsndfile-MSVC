@@ -13,58 +13,17 @@
 #define __func__          __FUNCTION__
 #define inline            __inline
 
-/* Older versions of MSVC don't seem to have these functions. */
-#if defined(_MSC_VER) && (_MSC_VER < 1800)
-__inline long int 
-SF_lrint (double flt)
-{	int intgr;
-
-	_asm
-	{	fld flt
-		fistp intgr
-		} ;
-		
-	return intgr ;
-}
-
-__inline long int 
-SF_lrintf (float flt)
-{	int intgr;
-
-	_asm
-	{	fld flt
-		fistp intgr
-		} ;
-		
-	return intgr ;
-}
-
-__inline long long int 
-SF_llrint (double flt)
-{	long long int intgr;
-
-	_asm
-	{	fld flt
-		fistp intgr
-		} ;
-		
-	return intgr ;
-}
-
-__inline long long int 
-SF_llrintf (float flt)
-{	long long int intgr;
-
-	_asm
-	{	fld flt
-		fistp intgr
-		} ;
-		
-	return intgr ;
-}
+/* Workaround for slow lrint() and lrintf() functions of MSVC */
+#define ENABLE_LRINT_HACK 1
+#if defined(_MSC_VER) && defined(ENABLE_LRINT_HACK) && (ENABLE_LRINT_HACK)
+long int SF_lrint(double flt);
+long int SF_lrintf(float flt);
+#else
+#define SF_lrint(X)  lrint((X))
+#define SF_lrintf(X) lrintf((X))
 #endif
 
-/* Nor does it have the snprintf function */
+/* Older MSVC lacks snprintf function */
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define snprintf _snprintf
 #endif
