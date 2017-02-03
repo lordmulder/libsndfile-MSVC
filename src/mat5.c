@@ -27,6 +27,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 /*------------------------------------------------------------------------------
 ** Information on how to decode and encode this file was obtained in a PDF

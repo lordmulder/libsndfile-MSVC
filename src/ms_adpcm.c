@@ -27,7 +27,7 @@
 #include	"sfendian.h"
 #include	"common.h"
 #include	"wavlike.h"
-
+#include	"sflrint.h"
 
 typedef struct
 {	int				channels, blocksize, samplesperblock, blocks, dataremaining ;

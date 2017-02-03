@@ -27,6 +27,7 @@
 #include "sfendian.h"
 #include "common.h"
 #include "G72x/g72x.h"
+#include "sflrint.h"
 
 /* This struct is private to the G72x code. */
 struct g72x_state ;

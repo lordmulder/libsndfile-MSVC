@@ -16,14 +16,13 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "sfconfig.h"
-
-/* Workaround for slow lrint() and lrintf() functions of MSVC */
-#if defined(_MSC_VER) && defined(ENABLE_LRINT_HACK) && (ENABLE_LRINT_HACK)
+/*
+ * Workaround for SLOW implementation of lrint() and lrintf() functions in MSVC
+ * The following inline assembly is about 168x faster on my test system, compared to built-in MSVC functions!
+ */
+#if defined(_MSC_VER) && (_MSC_VER)
 #include <float.h>
-
-long int
-SF_lrint(double flt)
+static __inline long int SF_lrint(double flt)
 {
 	int intgr;
 	_controlfp(_RC_NEAR, _MCW_RC);
@@ -34,9 +33,7 @@ SF_lrint(double flt)
 	};
 	return intgr;
 }
-
-long int
-SF_lrintf(float flt)
+static __inline long int SF_lrintf(float flt)
 {
 	int intgr;
 	_controlfp(_RC_NEAR, _MCW_RC);
@@ -47,9 +44,12 @@ SF_lrintf(float flt)
 	};
 	return intgr;
 }
+#else
+#define SF_lrint(X)  lrint((X))
+#define SF_lrintf(X) lrintf((X))
+#endif
 
-/*__inline long long int
-SF_llrint(double flt)
+/*static __inline long long int SF_llrint(double flt)
 {
 	long long int intgr;
 	_controlfp_s(NULL, _RC_NEAR, _MCW_RC);
@@ -61,8 +61,7 @@ SF_llrint(double flt)
 	return intgr;
 }*/
 
-/*__inline long long int
-SF_llrintf(float flt)
+/*static __inline long long int SF_llrintf(float flt)
 {
 	long long int intgr;
 	_controlfp_s(NULL, _RC_NEAR, _MCW_RC);
@@ -73,5 +72,3 @@ SF_llrintf(float flt)
 	};
 	return intgr;
 }*/
-
-#endif //defined(ENABLE_LRINT_HACK) && (ENABLE_LRINT_HACK)

@@ -22,6 +22,7 @@
 
 #include	"sndfile.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 static sf_count_t ulaw_read_ulaw2s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
 static sf_count_t ulaw_read_ulaw2i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;

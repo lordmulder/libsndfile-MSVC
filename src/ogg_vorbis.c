@@ -67,6 +67,7 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+#include "sflrint.h"
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 

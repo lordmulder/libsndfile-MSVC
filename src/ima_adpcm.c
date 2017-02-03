@@ -26,6 +26,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 typedef struct IMA_ADPCM_PRIVATE_tag
 {	int 			(*decode_block) (SF_PRIVATE *psf, struct IMA_ADPCM_PRIVATE_tag *pima) ;

@@ -40,7 +40,7 @@
 #include	"sfendian.h"
 #include	"common.h"
 #include	"ima_oki_adpcm.h"
-
+#include	"sflrint.h"
 
 static sf_count_t vox_read_s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
 static sf_count_t vox_read_i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;

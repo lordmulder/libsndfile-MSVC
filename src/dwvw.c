@@ -36,6 +36,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 typedef struct
 {	int		bit_width, dwm_maxsize, max_delta, span ;

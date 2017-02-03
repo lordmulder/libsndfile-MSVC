@@ -333,9 +333,6 @@
     <ClCompile Include="src\wavlike.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\lrint_hack.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chanmap.h">
@@ -408,6 +405,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\sndfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sflrint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -28,6 +28,7 @@
 #include "common.h"
 #include "wavlike.h"
 #include "GSM610/gsm.h"
+#include "sflrint.h"
 
 #define	GSM610_BLOCKSIZE		33
 #define	GSM610_SAMPLES			160

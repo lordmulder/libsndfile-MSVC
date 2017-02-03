@@ -36,6 +36,7 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+#include "sflrint.h"
 
 #ifdef _MSC_VER
 #include <io.h> /* required for access() function*/

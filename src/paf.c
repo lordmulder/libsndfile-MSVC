@@ -28,6 +28,7 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+#include "sflrint.h"
 
 /*------------------------------------------------------------------------------
 ** Macros to handle big/little endian issues.

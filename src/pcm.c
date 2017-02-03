@@ -23,6 +23,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 /* Need to be able to handle 3 byte (24 bit) integers. So defined a
 ** type and use SIZEOF_TRIBYTE instead of (tribyte).

@@ -30,6 +30,7 @@
 #include	"sfendian.h"
 #include	"common.h"
 #include	"chanmap.h"
+#include	"sflrint.h"
 
 /*------------------------------------------------------------------------------
 ** Macros to handle big/little endian issues.

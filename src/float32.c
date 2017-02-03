@@ -27,6 +27,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 #if CPU_IS_LITTLE_ENDIAN
 	#define FLOAT32_READ	float32_le_read

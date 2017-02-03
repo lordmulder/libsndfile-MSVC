@@ -28,6 +28,7 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+#include "sflrint.h"
 
 #define	MAX_XI_SAMPLES	16
 

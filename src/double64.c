@@ -27,6 +27,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"sflrint.h"
 
 #if CPU_IS_LITTLE_ENDIAN
 	#define DOUBLE64_READ	double64_le_read
