@@ -17,10 +17,21 @@
 */
 
 /*
- * Workaround for SLOW implementation of lrint() and lrintf() functions in MSVC
- * The following inline assembly is about 168x faster on my test system, compared to built-in MSVC functions!
+ * Workaround for forbiddingly SLOW implementation of lrint() and lrintf() functions in MSVC
+ * The following inline implemenatation was adapted from Qt's qRound() function
+*  Runs about ~32x faster (on my test system), compared to MSVC's built-in lrint() function!
  */
 #if defined(_MSC_VER) && (_MSC_VER)
+#define _SF_LRINT_MSVC(T) \
+((d >= ((T)0.0)) ? ((long)(d + ((T)0.5))) : ((long)(d - ((long)(d - 1)) + ((T)0.5))) + ((long)(d - 1)))
+static __inline long SF_lrint(double d) { return _SF_LRINT_MSVC(double); }
+static __inline long SF_lrintf(float d) { return _SF_LRINT_MSVC(float);  }
+#else
+#define SF_lrint(X)  lrint((X))
+#define SF_lrintf(X) lrintf((X))
+#endif
+
+/*Inline assembly versions *not* currently used!
 #include <float.h>
 static __inline long int SF_lrint(double flt)
 {
@@ -44,12 +55,7 @@ static __inline long int SF_lrintf(float flt)
 	};
 	return intgr;
 }
-#else
-#define SF_lrint(X)  lrint((X))
-#define SF_lrintf(X) lrintf((X))
-#endif
-
-/*static __inline long long int SF_llrint(double flt)
+static __inline long long int SF_llrint(double flt)
 {
 	long long int intgr;
 	_controlfp_s(NULL, _RC_NEAR, _MCW_RC);
@@ -59,9 +65,8 @@ static __inline long int SF_lrintf(float flt)
 		fistp intgr
 	};
 	return intgr;
-}*/
-
-/*static __inline long long int SF_llrintf(float flt)
+}
+static __inline long long int SF_llrintf(float flt)
 {
 	long long int intgr;
 	_controlfp_s(NULL, _RC_NEAR, _MCW_RC);
