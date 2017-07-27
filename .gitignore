@@ -4,10 +4,11 @@
 /include
 /examples/obj
 /examples/bin
+/.vs
+*.user
 *.suo
 *.sdf
 *.opensdf
 *.opendb
 *.html
 *.VC.db
-*.user
