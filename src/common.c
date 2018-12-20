@@ -37,11 +37,17 @@
 
 #ifdef _MSC_VER
 #include <io.h> /* required for access() function*/
-#define access(X,Y) _access((X),(Y))
 #define R_OK 4  /* Test for read permission. */
 #define W_OK 2  /* Test for write permission. */
 #define X_OK 1  /* execute permission - unsupported in windows*/
 #define F_OK 0  /* Test for existence. */
+#endif
+
+/* MSVC prefers _access() over access() */
+#if defined(_MSC_VER)
+#define sf_access(X,Y) _access((X),(Y))
+#else
+#define sf_access(X,Y) access((X),(Y))
 #endif
 
 /* Allocate and initialize the SF_PRIVATE struct. */
@@ -1737,7 +1743,7 @@ psf_open_tmpfile (char * fname, size_t fnamelen)
 		tmpdir = tmpdir == NULL ? "/tmp" : tmpdir ;
 		} ;
 
-	if (tmpdir && access (tmpdir, R_OK | W_OK | X_OK) == 0)
+	if (tmpdir && sf_access(tmpdir, R_OK | W_OK | X_OK) == 0)
 	{	snprintf (fname, fnamelen, "%s/%x%x-alac.tmp", tmpdir, psf_rand_int32 (), psf_rand_int32 ()) ;
 		if ((file = fopen (fname, "wb+")) != NULL)
 			return file ;

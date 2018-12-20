@@ -333,6 +333,9 @@
     <ClCompile Include="src\wavlike.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\test_binheader_writef.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\chanmap.h">
