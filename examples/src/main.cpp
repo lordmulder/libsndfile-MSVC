@@ -46,7 +46,7 @@ static int example_main(int argc, wchar_t *argv[])
 {
 	/* Print logo */
 	printf("libsndfile-MSVC example program [%s] [MSVC v%u]\n\n", __DATE__, _MSC_VER);
-	printf("Powered by %s,\nCopyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>\n\n", sf_version_string());
+	printf("Powered by %s,\nCopyright (C) 1999-2017 Erik de Castro Lopo <erikd@mega-nerd.com>\n\n", sf_version_string());
 
 	/* Check for arguments */
 	if (argc < 3)

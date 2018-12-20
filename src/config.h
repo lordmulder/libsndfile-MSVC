@@ -220,7 +220,7 @@
 #define PACKAGE_NAME "libsndfile"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "libsndfile 1.0.27"
+#define PACKAGE_STRING "libsndfile 1.0.28"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "libsndfile"
@@ -229,7 +229,7 @@
 #define PACKAGE_URL "http://www.mega-nerd.com/libsndfile/"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.27"
+#define PACKAGE_VERSION "1.0.28"
 
 /* Set to maximum allowed value of sf_count_t type. */
 #define SF_COUNT_MAX 0x7fffffffffffffffi64
