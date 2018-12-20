@@ -36,7 +36,6 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
-#include	"sflrint.h"
 
 typedef struct
 {	int		bit_width, dwm_maxsize, max_delta, span ;
@@ -629,7 +628,7 @@ dwvw_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			iptr [k] = SF_lrintf (normfact * ptr [total + k]) ;
+			iptr [k] = lrintf (normfact * ptr [total + k]) ;
 		count = dwvw_encode_data (psf, pdwvw, iptr, writecount) ;
 
 		total += count ;
@@ -661,7 +660,7 @@ dwvw_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			iptr [k] = SF_lrint (normfact * ptr [total + k]) ;
+			iptr [k] = lrint (normfact * ptr [total + k]) ;
 		count = dwvw_encode_data (psf, pdwvw, iptr, writecount) ;
 
 		total += count ;

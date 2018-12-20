@@ -26,7 +26,6 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
-#include	"sflrint.h"
 
 typedef struct IMA_ADPCM_PRIVATE_tag
 {	int 			(*decode_block) (SF_PRIVATE *psf, struct IMA_ADPCM_PRIVATE_tag *pima) ;
@@ -959,7 +958,7 @@ ima_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : (int) len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = SF_lrintf (normfact * ptr [total + k]) ;
+			sptr [k] = lrintf (normfact * ptr [total + k]) ;
 		count = ima_write_block (psf, pima, sptr, writecount) ;
 		total += count ;
 		len -= writecount ;
@@ -990,7 +989,7 @@ ima_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : (int) len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = SF_lrint (normfact * ptr [total + k]) ;
+			sptr [k] = lrint (normfact * ptr [total + k]) ;
 		count = ima_write_block (psf, pima, sptr, writecount) ;
 		total += count ;
 		len -= writecount ;

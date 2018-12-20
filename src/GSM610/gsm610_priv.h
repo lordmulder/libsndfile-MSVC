@@ -12,15 +12,6 @@
 #define	FAST
 #define	WAV49
 
-#if __GNUC__
-#define ALWAYS_INLINE		__attribute__ ((always_inline))
-#else
-#define ALWAYS_INLINE
-#ifdef _MSC_VER
-#define inline __inline
-#endif
-#endif
-
 #ifdef __cplusplus
 #error "This code is not designed to be compiled with a C++ compiler."
 #endif

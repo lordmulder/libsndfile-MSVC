@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
+** Copyright (C) 1999-2017 Erik de Castro Lopo <erikd@mega-nerd.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU Lesser General Public License as published by
@@ -171,7 +171,7 @@ ErrorStruct SndfileErrors [] =
 	{	SFE_RAW_READ_BAD_SPEC	, "Error while opening RAW file for read. Must specify format and channels.\n"
 									"Possibly trying to open unsupported format." },
 	{	SFE_RAW_BAD_BITWIDTH	, "Error. RAW file bitwidth must be a multiple of 8." },
-	{	SFE_RAW_BAD_FORMAT		, "Error. Bad format field in SF_INFO struct when openning a RAW file for read." },
+	{	SFE_RAW_BAD_FORMAT		, "Error. Bad format field in SF_INFO struct when opening a RAW file for read." },
 
 	{	SFE_PAF_NO_MARKER		, "Error in PAF file, no marker." },
 	{	SFE_PAF_VERSION			, "Error in PAF file, bad version." },
@@ -202,7 +202,7 @@ ErrorStruct SndfileErrors [] =
 
 	{	SFE_IRCAM_NO_MARKER		, "Error in IRCAM file, bad IRCAM marker." },
 	{	SFE_IRCAM_BAD_CHANNELS	, "Error in IRCAM file, bad channel count." },
-	{	SFE_IRCAM_UNKNOWN_FORMAT, "Error in IRCAM file, unknow encoding format." },
+	{	SFE_IRCAM_UNKNOWN_FORMAT, "Error in IRCAM file, unknown encoding format." },
 
 	{	SFE_W64_64_BIT			, "Error in W64 file, file contains 64 bit offset." },
 	{	SFE_W64_NO_RIFF			, "Error in W64 file. No 'riff' chunk marker." },
@@ -242,7 +242,7 @@ ErrorStruct SndfileErrors [] =
 
 	{	SFE_FLAC_BAD_HEADER		, "Error : bad flac header." },
 	{	SFE_FLAC_NEW_DECODER	, "Error : problem while creating flac decoder." },
-	{	SFE_FLAC_INIT_DECODER	, "Error : problem while initialization of the flac decoder." },
+	{	SFE_FLAC_INIT_DECODER	, "Error : problem with initialization of the flac decoder." },
 	{	SFE_FLAC_LOST_SYNC		, "Error : flac decoder lost sync." },
 	{	SFE_FLAC_BAD_SAMPLE_RATE, "Error : flac does not support this sample rate." },
 	{	SFE_FLAC_UNKOWN_ERROR	, "Error : unknown error in flac decoder." },
@@ -267,7 +267,7 @@ ErrorStruct SndfileErrors [] =
 	{	SFE_BAD_CHUNK_MARKER	, "Error : Bad chunk marker." },
 	{	SFE_BAD_CHUNK_DATA_PTR	, "Error : Bad data pointer in SF_CHUNK_INFO struct." },
 	{	SFE_FILENAME_TOO_LONG	, "Error : Supplied filename too long." },
-
+	{	SFE_NEGATIVE_RW_LEN		, "Error : Length parameter passed to read/write is negative." },
 
 	{	SFE_MAX_ERROR			, "Maximum error number." },
 	{	SFE_MAX_ERROR + 1		, NULL }
@@ -319,6 +319,7 @@ static char	sf_syserr [SF_SYSERR_LEN] = { 0 } ;
 **	Public functions.
 */
 
+SNDFILE_API
 SNDFILE*
 sf_open	(const char *path, int mode, SF_INFO *sfinfo)
 {	SF_PRIVATE 	*psf ;
@@ -326,7 +327,7 @@ sf_open	(const char *path, int mode, SF_INFO *sfinfo)
 	/* Ultimate sanity check. */
 	assert (sizeof (sf_count_t) == 8) ;
 
-	if ((psf = calloc (1, sizeof (SF_PRIVATE))) == NULL)
+	if ((psf = psf_allocate ()) == NULL)
 	{	sf_errno = SFE_MALLOC_FAILED ;
 		return	NULL ;
 		} ;
@@ -349,6 +350,7 @@ sf_open	(const char *path, int mode, SF_INFO *sfinfo)
 	return psf_open_file (psf, sfinfo) ;
 } /* sf_open */
 
+SNDFILE_API
 SNDFILE*
 sf_open_fd	(int fd, int mode, SF_INFO *sfinfo, int close_desc)
 {	SF_PRIVATE 	*psf ;
@@ -358,7 +360,7 @@ sf_open_fd	(int fd, int mode, SF_INFO *sfinfo, int close_desc)
 		return	NULL ;
 		} ;
 
-	if ((psf = calloc (1, sizeof (SF_PRIVATE))) == NULL)
+	if ((psf = psf_allocate ()) == NULL)
 	{	sf_errno = SFE_MALLOC_FAILED ;
 		return	NULL ;
 		} ;
@@ -377,6 +379,7 @@ sf_open_fd	(int fd, int mode, SF_INFO *sfinfo, int close_desc)
 	return psf_open_file (psf, sfinfo) ;
 } /* sf_open_fd */
 
+SNDFILE_API
 SNDFILE*
 sf_open_virtual	(SF_VIRTUAL_IO *sfvirtual, int mode, SF_INFO *sfinfo, void *user_data)
 {	SF_PRIVATE 	*psf ;
@@ -400,7 +403,7 @@ sf_open_virtual	(SF_VIRTUAL_IO *sfvirtual, int mode, SF_INFO *sfinfo, void *user
 		return NULL ;
 		} ;
 
-	if ((psf = calloc (1, sizeof (SF_PRIVATE))) == NULL)
+	if ((psf = psf_allocate ()) == NULL)
 	{	sf_errno = SFE_MALLOC_FAILED ;
 		return	NULL ;
 		} ;
@@ -416,6 +419,7 @@ sf_open_virtual	(SF_VIRTUAL_IO *sfvirtual, int mode, SF_INFO *sfinfo, void *user
 	return psf_open_file (psf, sfinfo) ;
 } /* sf_open_virtual */
 
+SNDFILE_API
 int
 sf_close	(SNDFILE *sndfile)
 {	SF_PRIVATE	*psf ;
@@ -425,6 +429,7 @@ sf_close	(SNDFILE *sndfile)
 	return psf_close (psf) ;
 } /* sf_close */
 
+SNDFILE_API
 void
 sf_write_sync	(SNDFILE *sndfile)
 {	SF_PRIVATE	*psf ;
@@ -440,6 +445,7 @@ sf_write_sync	(SNDFILE *sndfile)
 /*==============================================================================
 */
 
+SNDFILE_API
 const char*
 sf_error_number	(int errnum)
 {	static const char *bad_errnum =
@@ -462,6 +468,7 @@ sf_error_number	(int errnum)
 	return bad_errnum ;
 } /* sf_error_number */
 
+SNDFILE_API
 const char*
 sf_strerror (SNDFILE *sndfile)
 {	SF_PRIVATE 	*psf = NULL ;
@@ -490,6 +497,7 @@ sf_strerror (SNDFILE *sndfile)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 int
 sf_error (SNDFILE *sndfile)
 {	SF_PRIVATE	*psf ;
@@ -508,6 +516,7 @@ sf_error (SNDFILE *sndfile)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 int
 sf_perror (SNDFILE *sndfile)
 {	SF_PRIVATE 	*psf ;
@@ -529,6 +538,7 @@ sf_perror (SNDFILE *sndfile)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 int
 sf_error_str (SNDFILE *sndfile, char *str, size_t maxlen)
 {	SF_PRIVATE 	*psf ;
@@ -552,6 +562,7 @@ sf_error_str (SNDFILE *sndfile, char *str, size_t maxlen)
 /*==============================================================================
 */
 
+SNDFILE_API
 int
 sf_format_check	(const SF_INFO *info)
 {	int	subformat, endian ;
@@ -861,6 +872,7 @@ sf_format_check	(const SF_INFO *info)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 const char *
 sf_version_string (void)
 {
@@ -875,6 +887,7 @@ sf_version_string (void)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 int
 sf_command	(SNDFILE *sndfile, int command, void *data, int datasize)
 {	SF_PRIVATE *psf = (SF_PRIVATE *) sndfile ;
@@ -1375,6 +1388,7 @@ sf_command	(SNDFILE *sndfile, int command, void *data, int datasize)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_seek	(SNDFILE *sndfile, sf_count_t offset, int whence)
 {	SF_PRIVATE 	*psf ;
@@ -1493,6 +1507,7 @@ sf_seek	(SNDFILE *sndfile, sf_count_t offset, int whence)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 const char*
 sf_get_string (SNDFILE *sndfile, int str_type)
 {	SF_PRIVATE 	*psf ;
@@ -1505,6 +1520,7 @@ sf_get_string (SNDFILE *sndfile, int str_type)
 	return psf_get_string (psf, str_type) ;
 } /* sf_get_string */
 
+SNDFILE_API
 int
 sf_set_string (SNDFILE *sndfile, int str_type, const char* str)
 {	SF_PRIVATE 	*psf ;
@@ -1517,6 +1533,7 @@ sf_set_string (SNDFILE *sndfile, int str_type, const char* str)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 int
 sf_current_byterate (SNDFILE *sndfile)
 {	SF_PRIVATE 	*psf ;
@@ -1561,11 +1578,15 @@ sf_current_byterate (SNDFILE *sndfile)
 /*==============================================================================
 */
 
+SNDFILE_API
 sf_count_t
 sf_read_raw		(SNDFILE *sndfile, void *ptr, sf_count_t bytes)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 	int			bytewidth, blockwidth ;
+
+	if (bytes == 0)
+		return 0 ;
 
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
 
@@ -1610,12 +1631,21 @@ sf_read_raw		(SNDFILE *sndfile, void *ptr, sf_count_t bytes)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_read_short	(SNDFILE *sndfile, short *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
@@ -1627,7 +1657,7 @@ sf_read_short	(SNDFILE *sndfile, short *ptr, sf_count_t len)
 		return 0 ;
 		} ;
 
-	if (len <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, len * sizeof (short)) ;
 		return 0 ; /* End of file. */
 		} ;
@@ -1657,19 +1687,28 @@ sf_read_short	(SNDFILE *sndfile, short *ptr, sf_count_t len)
 	return count ;
 } /* sf_read_short */
 
+SNDFILE_API
 sf_count_t
 sf_readf_short		(SNDFILE *sndfile, short *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
 		return 0 ;
 		} ;
 
-	if (frames <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, frames * psf->sf.channels * sizeof (short)) ;
 		return 0 ; /* End of file. */
 		} ;
@@ -1702,12 +1741,21 @@ sf_readf_short		(SNDFILE *sndfile, short *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_read_int		(SNDFILE *sndfile, int *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
@@ -1719,7 +1767,7 @@ sf_read_int		(SNDFILE *sndfile, int *ptr, sf_count_t len)
 		return 0 ;
 		} ;
 
-	if (len <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, len * sizeof (int)) ;
 		return 0 ;
 		} ;
@@ -1749,19 +1797,28 @@ sf_read_int		(SNDFILE *sndfile, int *ptr, sf_count_t len)
 	return count ;
 } /* sf_read_int */
 
+SNDFILE_API
 sf_count_t
 sf_readf_int	(SNDFILE *sndfile, int *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
 		return 0 ;
 		} ;
 
-	if (frames <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, frames * psf->sf.channels * sizeof (int)) ;
 		return 0 ;
 		} ;
@@ -1794,12 +1851,21 @@ sf_readf_int	(SNDFILE *sndfile, int *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_read_float	(SNDFILE *sndfile, float *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
@@ -1811,7 +1877,7 @@ sf_read_float	(SNDFILE *sndfile, float *ptr, sf_count_t len)
 		return 0 ;
 		} ;
 
-	if (len <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, len * sizeof (float)) ;
 		return 0 ;
 		} ;
@@ -1841,19 +1907,28 @@ sf_read_float	(SNDFILE *sndfile, float *ptr, sf_count_t len)
 	return count ;
 } /* sf_read_float */
 
+SNDFILE_API
 sf_count_t
 sf_readf_float	(SNDFILE *sndfile, float *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
 		return 0 ;
 		} ;
 
-	if (frames <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, frames * psf->sf.channels * sizeof (float)) ;
 		return 0 ;
 		} ;
@@ -1886,12 +1961,21 @@ sf_readf_float	(SNDFILE *sndfile, float *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_read_double	(SNDFILE *sndfile, double *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
@@ -1903,7 +1987,7 @@ sf_read_double	(SNDFILE *sndfile, double *ptr, sf_count_t len)
 		return 0 ;
 		} ;
 
-	if (len <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, len * sizeof (double)) ;
 		return 0 ;
 		} ;
@@ -1933,19 +2017,28 @@ sf_read_double	(SNDFILE *sndfile, double *ptr, sf_count_t len)
 	return count ;
 } /* sf_read_double */
 
+SNDFILE_API
 sf_count_t
 sf_readf_double	(SNDFILE *sndfile, double *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count, extra ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_WRITE)
 	{	psf->error = SFE_NOT_READMODE ;
 		return 0 ;
 		} ;
 
-	if (frames <= 0 || psf->read_current >= psf->sf.frames)
+	if (psf->read_current >= psf->sf.frames)
 	{	psf_memset (ptr, 0, frames * psf->sf.channels * sizeof (double)) ;
 		return 0 ;
 		} ;
@@ -1978,13 +2071,22 @@ sf_readf_double	(SNDFILE *sndfile, double *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_write_raw	(SNDFILE *sndfile, const void *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 	int			bytewidth, blockwidth ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	bytewidth = (psf->bytewidth > 0) ? psf->bytewidth : 1 ;
 	blockwidth = (psf->blockwidth > 0) ? psf->blockwidth : 1 ;
@@ -2004,7 +2106,9 @@ sf_write_raw	(SNDFILE *sndfile, const void *ptr, sf_count_t len)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf_fwrite (ptr, 1, len, psf) ;
@@ -2027,12 +2131,21 @@ sf_write_raw	(SNDFILE *sndfile, const void *ptr, sf_count_t len)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_write_short	(SNDFILE *sndfile, const short *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2054,7 +2167,9 @@ sf_write_short	(SNDFILE *sndfile, const short *ptr, sf_count_t len)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_short (psf, ptr, len) ;
@@ -2074,12 +2189,21 @@ sf_write_short	(SNDFILE *sndfile, const short *ptr, sf_count_t len)
 	return count ;
 } /* sf_write_short */
 
+SNDFILE_API
 sf_count_t
 sf_writef_short	(SNDFILE *sndfile, const short *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2096,7 +2220,9 @@ sf_writef_short	(SNDFILE *sndfile, const short *ptr, sf_count_t frames)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_short (psf, ptr, frames * psf->sf.channels) ;
@@ -2119,12 +2245,21 @@ sf_writef_short	(SNDFILE *sndfile, const short *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_write_int	(SNDFILE *sndfile, const int *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2146,7 +2281,9 @@ sf_write_int	(SNDFILE *sndfile, const int *ptr, sf_count_t len)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_int (psf, ptr, len) ;
@@ -2166,12 +2303,21 @@ sf_write_int	(SNDFILE *sndfile, const int *ptr, sf_count_t len)
 	return count ;
 } /* sf_write_int */
 
+SNDFILE_API
 sf_count_t
 sf_writef_int	(SNDFILE *sndfile, const int *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2188,7 +2334,9 @@ sf_writef_int	(SNDFILE *sndfile, const int *ptr, sf_count_t frames)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_int (psf, ptr, frames * psf->sf.channels) ;
@@ -2211,12 +2359,21 @@ sf_writef_int	(SNDFILE *sndfile, const int *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_write_float	(SNDFILE *sndfile, const float *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2238,7 +2395,9 @@ sf_write_float	(SNDFILE *sndfile, const float *ptr, sf_count_t len)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_float (psf, ptr, len) ;
@@ -2258,12 +2417,21 @@ sf_write_float	(SNDFILE *sndfile, const float *ptr, sf_count_t len)
 	return count ;
 } /* sf_write_float */
 
+SNDFILE_API
 sf_count_t
 sf_writef_float	(SNDFILE *sndfile, const float *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2280,7 +2448,9 @@ sf_writef_float	(SNDFILE *sndfile, const float *ptr, sf_count_t frames)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_float (psf, ptr, frames * psf->sf.channels) ;
@@ -2303,12 +2473,21 @@ sf_writef_float	(SNDFILE *sndfile, const float *ptr, sf_count_t frames)
 /*------------------------------------------------------------------------------
 */
 
+SNDFILE_API
 sf_count_t
 sf_write_double	(SNDFILE *sndfile, const double *ptr, sf_count_t len)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (len == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (len <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2330,7 +2509,9 @@ sf_write_double	(SNDFILE *sndfile, const double *ptr, sf_count_t len)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_double (psf, ptr, len) ;
@@ -2350,12 +2531,21 @@ sf_write_double	(SNDFILE *sndfile, const double *ptr, sf_count_t len)
 	return count ;
 } /* sf_write_double */
 
+SNDFILE_API
 sf_count_t
 sf_writef_double	(SNDFILE *sndfile, const double *ptr, sf_count_t frames)
 {	SF_PRIVATE 	*psf ;
 	sf_count_t	count ;
 
+	if (frames == 0)
+		return 0 ;
+
 	VALIDATE_SNDFILE_AND_ASSIGN_PSF (sndfile, psf, 1) ;
+
+	if (frames <= 0)
+	{	psf->error = SFE_NEGATIVE_RW_LEN ;
+		return 0 ;
+		} ;
 
 	if (psf->file.mode == SFM_READ)
 	{	psf->error = SFE_NOT_WRITEMODE ;
@@ -2372,7 +2562,9 @@ sf_writef_double	(SNDFILE *sndfile, const double *ptr, sf_count_t frames)
 			return 0 ;
 
 	if (psf->have_written == SF_FALSE && psf->write_header != NULL)
-		psf->write_header (psf, SF_FALSE) ;
+	{	if ((psf->error = psf->write_header (psf, SF_FALSE)))
+			return 0 ;
+		} ;
 	psf->have_written = SF_TRUE ;
 
 	count = psf->write_double (psf, ptr, frames * psf->sf.channels) ;
@@ -2688,6 +2880,7 @@ psf_close (SF_PRIVATE *psf)
 	psf_close_rsrc (psf) ;
 
 	/* For an ISO C compliant implementation it is ok to free a NULL pointer. */
+	free (psf->header.ptr) ;
 	free (psf->container_data) ;
 	free (psf->codec_data) ;
 	free (psf->interleave) ;
@@ -3082,6 +3275,7 @@ error_exit :
 ** It doesn't work for W64 because W64 uses weird GUID style chunk markers.
 */
 
+SNDFILE_API
 int
 sf_set_chunk (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
 {	SF_PRIVATE 	*psf ;
@@ -3097,6 +3291,7 @@ sf_set_chunk (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
 	return SFE_BAD_CHUNK_FORMAT ;
 } /* sf_set_chunk */
 
+SNDFILE_API
 SF_CHUNK_ITERATOR *
 sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
 {	SF_PRIVATE 	*psf ;
@@ -3109,6 +3304,7 @@ sf_get_chunk_iterator (SNDFILE * sndfile, const SF_CHUNK_INFO * chunk_info)
 	return psf_get_chunk_iterator (psf, NULL) ;
 } /* sf_get_chunk_iterator */
 
+SNDFILE_API
 SF_CHUNK_ITERATOR *
 sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator)
 {	SF_PRIVATE 	*psf ;
@@ -3122,6 +3318,7 @@ sf_next_chunk_iterator (SF_CHUNK_ITERATOR * iterator)
 	return NULL ;
 } /* sf_get_chunk_iterator_next */
 
+SNDFILE_API
 int
 sf_get_chunk_size (const SF_CHUNK_ITERATOR * iterator, SF_CHUNK_INFO * chunk_info)
 {	SF_PRIVATE 	*psf ;
@@ -3139,6 +3336,7 @@ sf_get_chunk_size (const SF_CHUNK_ITERATOR * iterator, SF_CHUNK_INFO * chunk_inf
 	return 0 ;
 } /* sf_get_chunk_size */
 
+SNDFILE_API
 int
 sf_get_chunk_data (const SF_CHUNK_ITERATOR * iterator, SF_CHUNK_INFO * chunk_info)
 {	SF_PRIVATE	*psf ;

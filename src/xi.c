@@ -28,7 +28,6 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
-#include "sflrint.h"
 
 #define	MAX_XI_SAMPLES	16
 
@@ -281,8 +280,8 @@ xi_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
 	current = psf_ftell (psf) ;
 
 	/* Reset the current header length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 	psf_fseek (psf, 0, SEEK_SET) ;
 
 	string = "Extended Instrument: " ;
@@ -318,12 +317,12 @@ xi_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
 
 
 	/* Header construction complete so write it out. */
-	psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	if (psf->error)
 		return psf->error ;
 
-	psf->dataoffset = psf->headindex ;
+	psf->dataoffset = psf->header.indx ;
 
 	if (current > 0)
 		psf_fseek (psf, current, SEEK_SET) ;
@@ -1073,7 +1072,7 @@ f2dsc_array (XI_PRIVATE *pxi, const float *src, signed char *dest, int count, fl
 	last_val = pxi->last_16 >> 8 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = SF_lrintf (src [k] * normfact) ;
+	{	current = lrintf (src [k] * normfact) ;
 		dest [k] = current - last_val ;
 		last_val = current ;
 		} ;
@@ -1089,7 +1088,7 @@ d2dsc_array (XI_PRIVATE *pxi, const double *src, signed char *dest, int count, d
 	last_val = pxi->last_16 >> 8 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = SF_lrint (src [k] * normfact) ;
+	{	current = lrint (src [k] * normfact) ;
 		dest [k] = current - last_val ;
 		last_val = current ;
 		} ;
@@ -1203,7 +1202,7 @@ f2dles_array (XI_PRIVATE *pxi, const float *src, short *dest, int count, float n
 	last_val = pxi->last_16 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = SF_lrintf (src [k] * normfact) ;
+	{	current = lrintf (src [k] * normfact) ;
 		diff = current - last_val ;
 		dest [k] = LE2H_16 (diff) ;
 		last_val = current ;
@@ -1220,7 +1219,7 @@ d2dles_array (XI_PRIVATE *pxi, const double *src, short *dest, int count, double
 	last_val = pxi->last_16 ;
 
 	for (k = 0 ; k < count ; k++)
-	{	current = SF_lrint (src [k] * normfact) ;
+	{	current = lrint (src [k] * normfact) ;
 		diff = current - last_val ;
 		dest [k] = LE2H_16 (diff) ;
 		last_val = current ;

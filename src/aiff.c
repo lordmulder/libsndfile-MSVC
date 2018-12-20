@@ -25,7 +25,6 @@
 #include <time.h>
 #include <ctype.h>
 #include <inttypes.h>
-#include <malloc.h>
 
 #include "sndfile.h"
 #include "sfendian.h"
@@ -781,7 +780,7 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
 
 			case MARK_MARKER :
 					psf_log_printf (psf, " %M : %d\n", marker, chunk_size) ;
-					{	uint16_t mark_id, n = 0, pstringIdx ;
+					{	uint16_t mark_id, n = 0 ;
 						uint32_t position ;
 
 						bytesread = psf_binheader_readf (psf, "E2", &n) ;
@@ -832,8 +831,7 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
 
 							psf_log_printf (psf, "   Name     : %s\n", ubuf.scbuf) ;
 
-							for (pstringIdx = 0 ; pstringIdx < pstr_len ; pstringIdx++)
-								psf->cues->cue_points [n].name [pstringIdx] = ubuf.scbuf [pstringIdx] ;
+							psf_strlcpy (psf->cues->cue_points [n].name, sizeof (psf->cues->cue_points [n].name), ubuf.cbuf) ;
 
 							paiff->markstr [n].markerID = mark_id ;
 							paiff->markstr [n].position = position ;
@@ -1160,16 +1158,16 @@ aiff_rewrite_header (SF_PRIVATE *psf)
 	int k, ch, comm_size, comm_frames ;
 
 	psf_fseek (psf, 0, SEEK_SET) ;
-	psf_fread (psf->header, psf->dataoffset, 1, psf) ;
+	psf_fread (psf->header.ptr, psf->dataoffset, 1, psf) ;
 
-	psf->headindex = 0 ;
+	psf->header.indx = 0 ;
 
 	/* FORM chunk. */
 	psf_binheader_writef (psf, "Etm8", FORM_MARKER, psf->filelength - 8) ;
 
 	/* COMM chunk. */
 	if ((k = psf_find_read_chunk_m32 (&psf->rchunks, COMM_MARKER)) >= 0)
-	{	psf->headindex = psf->rchunks.chunks [k].offset - 8 ;
+	{	psf->header.indx = psf->rchunks.chunks [k].offset - 8 ;
 		comm_frames = psf->sf.frames ;
 		comm_size = psf->rchunks.chunks [k].len ;
 		psf_binheader_writef (psf, "Em42t4", COMM_MARKER, comm_size, psf->sf.channels, comm_frames) ;
@@ -1177,7 +1175,7 @@ aiff_rewrite_header (SF_PRIVATE *psf)
 
 	/* PEAK chunk. */
 	if ((k = psf_find_read_chunk_m32 (&psf->rchunks, PEAK_MARKER)) >= 0)
-	{	psf->headindex = psf->rchunks.chunks [k].offset - 8 ;
+	{	psf->header.indx = psf->rchunks.chunks [k].offset - 8 ;
 		psf_binheader_writef (psf, "Em4", PEAK_MARKER, AIFF_PEAK_CHUNK_SIZE (psf->sf.channels)) ;
 		psf_binheader_writef (psf, "E44", 1, time (NULL)) ;
 		for (ch = 0 ; ch < psf->sf.channels ; ch++)
@@ -1187,13 +1185,13 @@ aiff_rewrite_header (SF_PRIVATE *psf)
 
 	/* SSND chunk. */
 	if ((k = psf_find_read_chunk_m32 (&psf->rchunks, SSND_MARKER)) >= 0)
-	{	psf->headindex = psf->rchunks.chunks [k].offset - 8 ;
+	{	psf->header.indx = psf->rchunks.chunks [k].offset - 8 ;
 		psf_binheader_writef (psf, "Etm8", SSND_MARKER, psf->datalength + SIZEOF_SSND_CHUNK) ;
 		} ;
 
 	/* Header mangling complete so write it out. */
 	psf_fseek (psf, 0, SEEK_SET) ;
-	psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	return ;
 } /* aiff_rewrite_header */
@@ -1413,8 +1411,8 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 		} ;
 
 	/* Reset the current header length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 	psf_fseek (psf, 0, SEEK_SET) ;
 
 	psf_binheader_writef (psf, "Etm8", FORM_MARKER, psf->filelength - 8) ;
@@ -1426,7 +1424,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 	else
 		psf_binheader_writef (psf, "Em", comm_type) ;
 
-	paiff->comm_offset = psf->headindex - 8 ;
+	paiff->comm_offset = psf->header.indx - 8 ;
 
 	memset (comm_sample_rate, 0, sizeof (comm_sample_rate)) ;
 	uint2tenbytefloat (psf->sf.samplerate, comm_sample_rate) ;
@@ -1446,7 +1444,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 	{	/* Both loops and cues exist */
 		uint16_t sustainLoopMode, releaseLoopMode ;
 		uint32_t idx, sLoopStart = 0, sLoopEnd = 0, rLoopStart = 0, rLoopEnd = 0 ;
-		int totalStringLength = 0, ps, stringLength ;
+		int totalStringLength = 0, stringLength ;
 
 		/* Here we count how many bytes will the pascal strings need */
 		for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
@@ -1469,21 +1467,8 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					4, psf->instrument->loops [1].end, 16, "release loop end", make_size_t (17)) ;
 			/* Now comes true markers from cues struct */
 			for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-			{	psf_binheader_writef (psf, "E24", 5 + idx, psf->cues->cue_points [idx].sample_offset) ;
-				stringLength = strlen (psf->cues->cue_points [idx].name) ;
-				if ((stringLength + 1) % 2 == 0)
-				{	/* the pascal string will have an even count so we'll not use the null terminator */
-					psf_binheader_writef (psf, "E1b", stringLength, psf->cues->cue_points [idx].name, make_size_t (stringLength)) ;
-					}
-				else
-				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
-					for (ps = 0 ; ps < stringLength ; ps++)
-						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
-					textString [stringLength] = '\0' ;
-					psf_binheader_writef (psf, "E1b", stringLength, textString, sizeof (textString)) ;
-					} ;
-				} ;
+				psf_binheader_writef (psf, "E24p", 5 + idx, psf->cues->cue_points [idx].sample_offset, psf->cues->cue_points [idx].name) ;
+
 			/* Change the loops to be references to the markers */
 			sLoopStart = 1 ;
 			sLoopEnd = 2 ;
@@ -1498,21 +1483,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					2, psf->instrument->loops [0].end, 16, "sustain loop end", make_size_t (17)) ;
 			/* Now comes true markers from cues struct */
 			for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-			{	psf_binheader_writef (psf, "E24", 3 + idx, psf->cues->cue_points [idx].sample_offset) ;
-				stringLength = strlen (psf->cues->cue_points [idx].name) ;
-				if ((stringLength + 1) % 2 == 0)
-				{	/* the pascal string will have an even count so we'll not use the null terminator */
-					psf_binheader_writef (psf, "E1b", stringLength, psf->cues->cue_points [idx].name, make_size_t (stringLength)) ;
-					}
-				else
-				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char *textString = (char*) _alloca(stringLength + 1); /*char textString[stringLength + 1]*/
-					for (ps = 0 ; ps < stringLength ; ps++)
-						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
-					textString [stringLength] = '\0' ;
-					psf_binheader_writef (psf, "E1b", stringLength, textString, sizeof (textString)) ;
-					} ;
-				} ;
+				psf_binheader_writef (psf, "E24p", 3 + idx, psf->cues->cue_points [idx].sample_offset, psf->cues->cue_points [idx].name) ;
 
 			/* Change the loops to be references to the markers */
 			sLoopStart = 1 ;
@@ -1528,21 +1499,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 					2, psf->instrument->loops [1].end, 16, "release loop end", make_size_t (17)) ;
 			/* Now comes true markers from cues struct */
 			for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-			{	psf_binheader_writef (psf, "E24", 3 + idx, psf->cues->cue_points [idx].sample_offset) ;
-				stringLength = strlen (psf->cues->cue_points [idx].name) ;
-				if ((stringLength + 1) % 2 == 0)
-				{	/* the pascal string will have an even count so we'll not use the null terminator */
-					psf_binheader_writef (psf, "E1b", stringLength, psf->cues->cue_points [idx].name, make_size_t (stringLength)) ;
-					}
-				else
-				{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-					char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
-					for (ps = 0 ; ps < stringLength ; ps++)
-						textString [ps] = psf->cues->cue_points [idx].name [ps] ;
-					textString [stringLength] = '\0' ;
-					psf_binheader_writef (psf, "E1b", stringLength, textString, sizeof (textString)) ;
-					} ;
-				} ;
+				psf_binheader_writef (psf, "E24p", 3 + idx, psf->cues->cue_points [idx].sample_offset, psf->cues->cue_points [idx].name) ;
 
 			/* Change the loops to be references to the markers */
 			sLoopStart = 0 ;
@@ -1623,36 +1580,19 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 	else if (psf->instrument == NULL && psf->cues != NULL)
 	{	/* There are cues but no loops */
 		uint32_t idx ;
-		int totalStringLength = 0, ps, stringLength ;
+		int totalStringLength = 0, stringLength ;
 
 		/* Here we count how many bytes will the pascal strings need */
 		for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
 		{	stringLength = strlen (psf->cues->cue_points [idx].name) + 1 ; /* We'll count the first byte also of every pascal string */
-			if (stringLength % 2 == 0)
-				totalStringLength += stringLength ;
-			else
-				totalStringLength += (stringLength + 1) ; /* The pascal string must have an even count */
+			totalStringLength += stringLength + (stringLength % 2 == 0 ? 0 : 1) ;
 			} ;
 
 		psf_binheader_writef (psf, "Em42",
 			MARK_MARKER, 2 + psf->cues->cue_count * (2 + 4) + totalStringLength, psf->cues->cue_count) ;
 
 		for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-		{	psf_binheader_writef (psf, "E24", psf->cues->cue_points [idx].indx, psf->cues->cue_points [idx].sample_offset) ;
-			stringLength = strlen (psf->cues->cue_points [idx].name) ;
-			if ((stringLength + 1) % 2 == 0)
-			{	/* the pascal string will have an even count so we'll not use the null terminator */
-				psf_binheader_writef (psf, "E1b", stringLength, psf->cues->cue_points [idx].name, make_size_t (stringLength)) ;
-				}
-			else
-			{	/* the pascal string would have an uneven count so we include a null terminator as pad */
-				char *textString = (char*) _alloca(stringLength + 1) ; /*char textString [stringLength + 1]*/
-				for (ps = 0 ; ps < stringLength ; ps++)
-					textString [ps] = psf->cues->cue_points [idx].name [ps] ;
-				textString [stringLength] = '\0' ;
-				psf_binheader_writef (psf, "E1b", stringLength, textString, sizeof (textString)) ;
-				} ;
-			} ;
+			psf_binheader_writef (psf, "E24p", psf->cues->cue_points [idx].indx, psf->cues->cue_points [idx].sample_offset, psf->cues->cue_points [idx].name) ;
 		} ;
 
 	if (psf->strings.flags & SF_STR_LOCATE_START)
@@ -1670,19 +1610,19 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
 		psf_binheader_writef (psf, "Em4b", psf->wchunks.chunks [uk].mark32, psf->wchunks.chunks [uk].len, psf->wchunks.chunks [uk].data, make_size_t (psf->wchunks.chunks [uk].len)) ;
 
 	/* Write SSND chunk. */
-	paiff->ssnd_offset = psf->headindex ;
+	paiff->ssnd_offset = psf->header.indx ;
 	psf_binheader_writef (psf, "Etm844", SSND_MARKER, psf->datalength + SIZEOF_SSND_CHUNK, 0, 0) ;
 
 	/* Header construction complete so write it out. */
-	psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	if (psf->error)
 		return psf->error ;
 
-	if (has_data && psf->dataoffset != psf->headindex)
+	if (has_data && psf->dataoffset != psf->header.indx)
 		return psf->error = SFE_INTERNAL ;
 
-	psf->dataoffset = psf->headindex ;
+	psf->dataoffset = psf->header.indx ;
 
 	if (! has_data)
 		psf_fseek (psf, psf->dataoffset, SEEK_SET) ;
@@ -1697,14 +1637,14 @@ aiff_write_tailer (SF_PRIVATE *psf)
 {	int		k ;
 
 	/* Reset the current header length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 
 	psf->dataend = psf_fseek (psf, 0, SEEK_END) ;
 
 	/* Make sure tailer data starts at even byte offset. Pad if necessary. */
 	if (psf->dataend % 2 == 1)
-	{	psf_fwrite (psf->header, 1, 1, psf) ;
+	{	psf_fwrite (psf->header.ptr, 1, 1, psf) ;
 		psf->dataend ++ ;
 		} ;
 
@@ -1719,8 +1659,8 @@ aiff_write_tailer (SF_PRIVATE *psf)
 		aiff_write_strings (psf, SF_STR_LOCATE_END) ;
 
 	/* Write the tailer. */
-	if (psf->headindex > 0)
-		psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	if (psf->header.indx > 0)
+		psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	return 0 ;
 } /* aiff_write_tailer */
@@ -1869,7 +1809,7 @@ uint2tenbytefloat (uint32_t num, uint8_t *bytes)
 		mask >>= 1 ;
 		} ;
 
-	num <<= count + 1 ;
+	num = count < 31 ? num << (count + 1) : 0 ;
 	bytes [1] = 29 - count ;
 	bytes [2] = (num >> 24) & 0xFF ;
 	bytes [3] = (num >> 16) & 0xFF ;

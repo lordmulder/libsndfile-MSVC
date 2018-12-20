@@ -22,7 +22,6 @@
 
 #include	"sndfile.h"
 #include	"common.h"
-#include	"sflrint.h"
 
 static sf_count_t ulaw_read_ulaw2s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
 static sf_count_t ulaw_read_ulaw2i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;
@@ -839,9 +838,9 @@ static inline void
 f2ulaw_array (const float *ptr, int count, unsigned char *buffer, float normfact)
 {	while (--count >= 0)
 	{	if (ptr [count] >= 0)
-			buffer [count] = ulaw_encode [SF_lrintf (normfact * ptr [count])] ;
+			buffer [count] = ulaw_encode [lrintf (normfact * ptr [count])] ;
 		else
-			buffer [count] = 0x7F & ulaw_encode [- SF_lrintf (normfact * ptr [count])] ;
+			buffer [count] = 0x7F & ulaw_encode [- lrintf (normfact * ptr [count])] ;
 		} ;
 } /* f2ulaw_array */
 
@@ -849,9 +848,9 @@ static inline void
 d2ulaw_array (const double *ptr, int count, unsigned char *buffer, double normfact)
 {	while (--count >= 0)
 	{	if (ptr [count] >= 0)
-			buffer [count] = ulaw_encode [SF_lrint (normfact * ptr [count])] ;
+			buffer [count] = ulaw_encode [lrint (normfact * ptr [count])] ;
 		else
-			buffer [count] = 0x7F & ulaw_encode [- SF_lrint (normfact * ptr [count])] ;
+			buffer [count] = 0x7F & ulaw_encode [- lrint (normfact * ptr [count])] ;
 		} ;
 } /* d2ulaw_array */
 

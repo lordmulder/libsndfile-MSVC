@@ -20,9 +20,6 @@
 #define ALWAYS_INLINE		__attribute__ ((always_inline))
 #else
 #define ALWAYS_INLINE
-#ifdef _MSC_VER
-#define inline __inline
-#endif
 #endif
 
 

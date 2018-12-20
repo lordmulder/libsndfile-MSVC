@@ -28,7 +28,6 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
-#include "sflrint.h"
 
 /*------------------------------------------------------------------------------
 ** Macros to handle big/little endian issues.
@@ -299,8 +298,8 @@ paf_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
 		} ;
 
 	/* Reset the current header length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 
 	if (psf->endian == SF_ENDIAN_BIG)
 	{	/* Marker, version, endianness, samplerate */
@@ -316,9 +315,9 @@ paf_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
 		} ;
 
 	/* Zero fill to dataoffset. */
-	psf_binheader_writef (psf, "z", (size_t) (psf->dataoffset - psf->headindex)) ;
+	psf_binheader_writef (psf, "z", (size_t) (psf->dataoffset - psf->header.indx)) ;
 
-	psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	return psf->error ;
 } /* paf_write_header */
@@ -775,7 +774,7 @@ paf24_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			iptr [k] = SF_lrintf (normfact * ptr [total + k]) ;
+			iptr [k] = lrintf (normfact * ptr [total + k]) ;
 		count = paf24_write (psf, ppaf24, iptr, writecount) ;
 		total += count ;
 		len -= writecount ;
@@ -806,7 +805,7 @@ paf24_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			iptr [k] = SF_lrint (normfact * ptr [total+k]) ;
+			iptr [k] = lrint (normfact * ptr [total+k]) ;
 		count = paf24_write (psf, ppaf24, iptr, writecount) ;
 		total += count ;
 		len -= writecount ;

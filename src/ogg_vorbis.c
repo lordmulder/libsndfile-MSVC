@@ -67,7 +67,6 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
-#include "sflrint.h"
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 
@@ -156,11 +155,11 @@ vorbis_read_header (SF_PRIVATE *psf, int log_data)
 	buffer = ogg_sync_buffer (&odata->osync, 4096L) ;
 
 	/* Grab the part of the header that has already been read. */
-	memcpy (buffer, psf->header, psf->headindex) ;
-	bytes = psf->headindex ;
+	memcpy (buffer, psf->header.ptr, psf->header.indx) ;
+	bytes = psf->header.indx ;
 
 	/* Submit a 4k block to libvorbis' Ogg layer */
-	bytes += psf_fread (buffer + psf->headindex, 1, 4096 - psf->headindex, psf) ;
+	bytes += psf_fread (buffer + psf->header.indx, 1, 4096 - psf->header.indx, psf) ;
 	ogg_sync_wrote (&odata->osync, bytes) ;
 
 	/* Get the first page. */
@@ -594,13 +593,13 @@ vorbis_rshort (SF_PRIVATE *psf, int samples, void *vptr, int off, int channels, 
 		float inverse = 1.0 / psf->float_max ;
 		for (j = 0 ; j < samples ; j++)
 			for (n = 0 ; n < channels ; n++)
-				ptr [i++] = SF_lrintf ((pcm [n][j] * inverse) * 32767.0f) ;
+				ptr [i++] = lrintf ((pcm [n][j] * inverse) * 32767.0f) ;
 	}
 	else
 	{
 		for (j = 0 ; j < samples ; j++)
 			for (n = 0 ; n < channels ; n++)
-				ptr [i++] = SF_lrintf (pcm [n][j] * 32767.0f) ;
+				ptr [i++] = lrintf (pcm [n][j] * 32767.0f) ;
 	}
 	return i ;
 } /* vorbis_rshort */
@@ -616,13 +615,13 @@ vorbis_rint (SF_PRIVATE *psf, int samples, void *vptr, int off, int channels, fl
 		float inverse = 1.0 / psf->float_max ;
 		for (j = 0 ; j < samples ; j++)
 			for (n = 0 ; n < channels ; n++)
-				ptr [i++] = SF_lrintf ((pcm [n][j] * inverse) * 2147483647.0f) ;
+				ptr [i++] = lrintf ((pcm [n][j] * inverse) * 2147483647.0f) ;
 	}
 	else
 	{
 		for (j = 0 ; j < samples ; j++)
 			for (n = 0 ; n < channels ; n++)
-				ptr [i++] = SF_lrintf (pcm [n][j] * 2147483647.0f) ;
+				ptr [i++] = lrintf (pcm [n][j] * 2147483647.0f) ;
 	}
 	return i ;
 } /* vorbis_rint */

@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 1999-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
+** Copyright (C) 1999-2017 Erik de Castro Lopo <erikd@mega-nerd.com>
 **
 ** This program is free software; you can redistribute it and/or modify
 ** it under the terms of the GNU Lesser General Public License as published by
@@ -29,6 +29,9 @@
 #elif HAVE_INTTYPES_H
 #include <inttypes.h>
 #endif
+#if HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
 
 #ifndef SNDFILE_H
 #include "sndfile.h"
@@ -38,7 +41,9 @@
 #error "This code is not designed to be compiled with a C++ compiler."
 #endif
 
-#if (SIZEOF_LONG == 8)
+#ifdef INT64_C
+#	define	SF_PLATFORM_S64(x)		INT64_C(x)
+#elif (SIZEOF_LONG == 8)
 #	define	SF_PLATFORM_S64(x)		x##l
 #elif (SIZEOF_LONG_LONG == 8)
 #	define	SF_PLATFORM_S64(x)		x##ll
@@ -70,11 +75,21 @@
 #	define WARN_UNUSED
 #endif
 
+/*
+** Visibility control
+*/
+
+#if defined (SNDFILE_EXPORTS) && !defined (_WIN32)
+#	define SNDFILE_API	__attribute__ ((visibility ("default")))
+#else
+#	define SNDFILE_API
+#endif
+
+
 #define	SF_BUFFER_LEN			(8192)
 #define	SF_FILENAME_LEN			(1024)
 #define SF_SYSERR_LEN			(256)
 #define SF_MAX_STRINGS			(32)
-#define	SF_HEADER_LEN			(12292)
 #define	SF_PARSELOG_LEN			(2048)
 
 #define	PSF_SEEK_ERROR			((sf_count_t) -1)
@@ -377,7 +392,12 @@ typedef struct sf_private_tag
 		int				indx ;
 	} parselog ;
 
-	unsigned char	header		[SF_HEADER_LEN] ; /* Must be unsigned */
+
+	struct
+	{	unsigned char	* ptr ;
+		sf_count_t		indx, end, len ;
+	} header ;
+
 	int				rwf_endian ;	/* Header endian-ness flag. */
 
 	/* Storage and housekeeping data for adding/reading strings from
@@ -395,10 +415,6 @@ typedef struct sf_private_tag
 	int				Magick ;
 
 	unsigned		unique_id ;
-
-	/* Index variables for maintaining parselog and header above. */
-	int				headindex, headend ;
-	int				has_text ;
 
 	int				error ;
 
@@ -727,9 +743,13 @@ enum
 	SFE_BAD_CHUNK_DATA_PTR,
 	SFE_ALAC_FAIL_TMPFILE,
 	SFE_FILENAME_TOO_LONG,
+	SFE_NEGATIVE_RW_LEN,
 
 	SFE_MAX_ERROR			/* This must be last in list. */
 } ;
+
+/* Allocate and initialize the SF_PRIVATE struct. */
+SF_PRIVATE * psf_allocate (void) ;
 
 int subformat_to_bytewidth (int format) ;
 int s_bitwidth_to_subformat (int bits) ;

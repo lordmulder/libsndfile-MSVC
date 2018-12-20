@@ -1,5 +1,5 @@
 /*
-** Copyright (C) 2008-2016 Erik de Castro Lopo <erikd@mega-nerd.com>
+** Copyright (C) 2008-2017 Erik de Castro Lopo <erikd@mega-nerd.com>
 ** Copyright (C) 2009      Uli Franke <cls@nebadje.org>
 **
 ** This program is free software; you can redistribute it and/or modify
@@ -336,7 +336,6 @@ rf64_read_header (SF_PRIVATE *psf, int *blockalign, int *framesperblock)
 
 					if (psf_ftell (psf) != psf->datalength + psf->dataoffset)
 						psf_log_printf (psf, "  *** psf_fseek past end error ***\n") ;
-						break ;
 					} ;
 				break ;
 
@@ -484,9 +483,11 @@ static const EXT_SUBFORMAT MSGUID_SUBTYPE_PCM =
 {	0x00000001, 0x0000, 0x0010, {	0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 }
 } ;
 
+#if 0
 static const EXT_SUBFORMAT MSGUID_SUBTYPE_MS_ADPCM =
 {	0x00000002, 0x0000, 0x0010, {	0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 }
 } ;
+#endif
 
 static const EXT_SUBFORMAT MSGUID_SUBTYPE_IEEE_FLOAT =
 {	0x00000003, 0x0000, 0x0010, {	0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71 }
@@ -628,7 +629,7 @@ rf64_write_fmt_chunk (SF_PRIVATE *psf)
 
 static int
 rf64_write_header (SF_PRIVATE *psf, int calc_length)
-{	sf_count_t	current ;
+{	sf_count_t	current, pad_size ;
 	int 		error = 0, has_data = SF_FALSE, add_fact_chunk = 0 ;
 	WAVLIKE_PRIVATE	*wpriv ;
 
@@ -652,8 +653,8 @@ rf64_write_header (SF_PRIVATE *psf, int calc_length)
 		} ;
 
 	/* Reset the current header length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 	psf_fseek (psf, 0, SEEK_SET) ;
 
 	if (wpriv->rf64_downgrade && psf->filelength < RIFF_DOWNGRADE_BYTES)
@@ -734,27 +735,25 @@ rf64_write_header (SF_PRIVATE *psf, int calc_length)
 
 #endif
 
-	if (psf->headindex + 8 < psf->dataoffset)
-	{	/* Add PAD data if necessary. */
-		int k = psf->dataoffset - 16 - psf->headindex ;
-		psf_binheader_writef (psf, "m4z", PAD_MARKER, k, make_size_t (k)) ;
-		} ;
+	pad_size = psf->dataoffset - 16 - psf->header.indx ;
+	if (pad_size >= 0)
+		psf_binheader_writef (psf, "m4z", PAD_MARKER, pad_size, make_size_t (pad_size)) ;
 
 	if (wpriv->rf64_downgrade && (psf->filelength < RIFF_DOWNGRADE_BYTES))
 		psf_binheader_writef (psf, "tm8", data_MARKER, psf->datalength) ;
 	else
 		psf_binheader_writef (psf, "m4", data_MARKER, 0xffffffff) ;
 
-	psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 	if (psf->error)
 		return psf->error ;
 
-	if (has_data && psf->dataoffset != psf->headindex)
-	{	printf ("Oooops : has_data && psf->dataoffset != psf->headindex\n") ;
+	if (has_data && psf->dataoffset != psf->header.indx)
+	{	psf_log_printf (psf, "Oooops : has_data && psf->dataoffset != psf->header.indx\n") ;
 		return psf->error = SFE_INTERNAL ;
 		} ;
 
-	psf->dataoffset = psf->headindex ;
+	psf->dataoffset = psf->header.indx ;
 
 	if (NOT (has_data))
 		psf_fseek (psf, psf->dataoffset, SEEK_SET) ;
@@ -768,8 +767,8 @@ static int
 rf64_write_tailer (SF_PRIVATE *psf)
 {
 	/* Reset the current header buffer length to zero. */
-	psf->header [0] = 0 ;
-	psf->headindex = 0 ;
+	psf->header.ptr [0] = 0 ;
+	psf->header.indx = 0 ;
 
 	if (psf->bytewidth > 0 && psf->sf.seekable == SF_TRUE)
 	{	psf->datalength = psf->sf.frames * psf->bytewidth * psf->sf.channels ;
@@ -788,8 +787,8 @@ rf64_write_tailer (SF_PRIVATE *psf)
 		wavlike_write_strings (psf, SF_STR_LOCATE_END) ;
 
 	/* Write the tailer. */
-	if (psf->headindex > 0)
-		psf_fwrite (psf->header, psf->headindex, 1, psf) ;
+	if (psf->header.indx > 0)
+		psf_fwrite (psf->header.ptr, psf->header.indx, 1, psf) ;
 
 	return 0 ;
 } /* rf64_write_tailer */
