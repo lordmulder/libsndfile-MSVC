@@ -33,6 +33,8 @@
 #include <sys/types.h>
 #endif
 
+#include "sflrint.h"
+
 #ifndef SNDFILE_H
 #include "sndfile.h"
 #endif

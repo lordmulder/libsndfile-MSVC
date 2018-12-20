@@ -730,7 +730,7 @@ msadpcm_write_f	(SF_PRIVATE *psf, const float *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = lrintf (normfact * ptr [total + k]) ;
+			sptr [k] = SF_lrintf (normfact * ptr [total + k]) ;
 		count = msadpcm_write_block (psf, pms, sptr, writecount) ;
 		total += count ;
 		len -= writecount ;
@@ -760,7 +760,7 @@ msadpcm_write_d	(SF_PRIVATE *psf, const double *ptr, sf_count_t len)
 	while (len > 0)
 	{	writecount = (len >= bufferlen) ? bufferlen : len ;
 		for (k = 0 ; k < writecount ; k++)
-			sptr [k] = lrint (normfact * ptr [total + k]) ;
+			sptr [k] = SF_lrint (normfact * ptr [total + k]) ;
 		count = msadpcm_write_block (psf, pms, sptr, writecount) ;
 		total += count ;
 		len -= writecount ;

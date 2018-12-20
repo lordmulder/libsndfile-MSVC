@@ -867,7 +867,7 @@ flac_command (SF_PRIVATE * psf, int command, void * data, int datasize)
 			*/
 			quality = (*((double *) data)) * 8.0 ;
 			/* Clip range. */
-			pflac->compression = lrint (SF_MAX (0.0, SF_MIN (8.0, quality))) ;
+			pflac->compression = SF_lrint (SF_MAX (0.0, SF_MIN (8.0, quality))) ;
 
 			psf_log_printf (psf, "%s : Setting SFC_SET_COMPRESSION_LEVEL to %u.\n", __func__, pflac->compression) ;
 
@@ -1172,7 +1172,7 @@ f2flac8_clip_array (const float *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x80 ;
 			continue ;
 			} ;
-		dest [count] = lrintf (scaled_value) ;
+		dest [count] = SF_lrintf (scaled_value) ;
 		} ;
 
 	return ;
@@ -1194,7 +1194,7 @@ f2flac16_clip_array (const float *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x8000 ;
 			continue ;
 			} ;
-		dest [count] = lrintf (scaled_value) ;
+		dest [count] = SF_lrintf (scaled_value) ;
 		} ;
 } /* f2flac16_clip_array */
 
@@ -1215,7 +1215,7 @@ f2flac24_clip_array (const float *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x800000 ;
 			continue ;
 			}
-		dest [count] = lrintf (scaled_value) ;
+		dest [count] = SF_lrintf (scaled_value) ;
 		} ;
 
 	return ;
@@ -1226,7 +1226,7 @@ f2flac8_array (const float *src, int32_t *dest, int count, int normalize)
 {	float normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrintf (src [count] * normfact) ;
+		dest [count] = SF_lrintf (src [count] * normfact) ;
 } /* f2flac8_array */
 
 static void
@@ -1234,7 +1234,7 @@ f2flac16_array (const float *src, int32_t *dest, int count, int normalize)
 {	float normfact = normalize ? (1.0 * 0x7FFF) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrintf (src [count] * normfact) ;
+		dest [count] = SF_lrintf (src [count] * normfact) ;
 } /* f2flac16_array */
 
 static void
@@ -1242,7 +1242,7 @@ f2flac24_array (const float *src, int32_t *dest, int count, int normalize)
 {	float normfact = normalize ? (1.0 * 0x7FFFFF) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrintf (src [count] * normfact) ;
+		dest [count] = SF_lrintf (src [count] * normfact) ;
 } /* f2flac24_array */
 
 static sf_count_t
@@ -1303,7 +1303,7 @@ d2flac8_clip_array (const double *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x80 ;
 			continue ;
 			} ;
-		dest [count] = lrint (scaled_value) ;
+		dest [count] = SF_lrint (scaled_value) ;
 		} ;
 
 	return ;
@@ -1325,7 +1325,7 @@ d2flac16_clip_array (const double *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x8000 ;
 			continue ;
 			} ;
-		dest [count] = lrint (scaled_value) ;
+		dest [count] = SF_lrint (scaled_value) ;
 		} ;
 
 	return ;
@@ -1347,7 +1347,7 @@ d2flac24_clip_array (const double *src, int32_t *dest, int count, int normalize)
 		{	dest [count] = 0x800000 ;
 			continue ;
 			} ;
-		dest [count] = lrint (scaled_value) ;
+		dest [count] = SF_lrint (scaled_value) ;
 		} ;
 
 	return ;
@@ -1358,7 +1358,7 @@ d2flac8_array (const double *src, int32_t *dest, int count, int normalize)
 {	double normfact = normalize ? (1.0 * 0x7F) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrint (src [count] * normfact) ;
+		dest [count] = SF_lrint (src [count] * normfact) ;
 } /* d2flac8_array */
 
 static void
@@ -1366,7 +1366,7 @@ d2flac16_array (const double *src, int32_t *dest, int count, int normalize)
 {	double normfact = normalize ? (1.0 * 0x7FFF) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrint (src [count] * normfact) ;
+		dest [count] = SF_lrint (src [count] * normfact) ;
 } /* d2flac16_array */
 
 static void
@@ -1374,7 +1374,7 @@ d2flac24_array (const double *src, int32_t *dest, int count, int normalize)
 {	double normfact = normalize ? (1.0 * 0x7FFFFF) : 1.0 ;
 
 	while (--count >= 0)
-		dest [count] = lrint (src [count] * normfact) ;
+		dest [count] = SF_lrint (src [count] * normfact) ;
 } /* d2flac24_array */
 
 static sf_count_t
